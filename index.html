@@ -38,6 +38,9 @@ h2{font:700 30px/1.25 Georgia,"Times New Roman",serif;color:var(--petrole);margi
 .etapes li::before{content:"0" counter(e);display:block;font:700 15px/1 sans-serif;color:var(--cuivre);margin-bottom:8px}
 .etapes b{display:block;color:var(--encre);font-size:18px;margin-bottom:4px}
 .bande{background:var(--creme)}
+.pq{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:center}
+.pq img{border-radius:14px;width:100%;aspect-ratio:4/3;object-fit:cover}
+@media (max-width:860px){.pq{grid-template-columns:1fr;gap:22px}}
 .pourquoi p{font-size:20px;line-height:1.6;max-width:44em;margin:0;color:var(--encre)}
 .pourquoi h2{margin-bottom:14px}
 .portes{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
@@ -91,9 +94,12 @@ footer img{height:26px;width:auto;margin-bottom:10px}
 <div class="hero-img" role="img" aria-label="Deux ouvriers sur un chantier de gros œuvre"></div>
 </div>
 
-<section class="pourquoi"><div class="w">
+<section class="pourquoi"><div class="w pq">
+<div>
 <h2>Pourquoi Collega ?</h2>
 <p>« Collega » veut dire collègue en italien, et presque la même chose en français et en allemand. C'est ce que nous voulons être pour votre entreprise : pas un prestataire de plus, mais un collègue qui connaît votre maison, prend en charge ce qui se répète, et rend à votre équipe le temps de faire son vrai métier.</p>
+</div>
+<img src="img/maraicher.jpg" alt="Une maraîchère consulte une tablette dans sa serre" loading="lazy">
 </div></section>
 
 <section style="padding-top:0"><div class="w">
