@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Collega · Ein Kollege mehr</title>
+<meta name="description" content="Sie erzählen, was Ihnen Zeit raubt. Collega baut das passende Werkzeug für Ihr KMU, steht dafür ein, und es bleibt Ihres.">
+<meta property="og:title" content="Collega · Ein Kollege mehr">
+<meta property="og:description" content="Sie erzählen, was Ihnen Zeit raubt. Collega baut das passende Werkzeug, steht dafür ein, und es bleibt Ihres.">
+<meta property="og:url" content="https://collega.ch/de/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://collega.ch/img/entete.jpg">
+<link rel="alternate" hreflang="fr" href="https://collega.ch/">
+<link rel="alternate" hreflang="de" href="https://collega.ch/de/">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<style>
+:root{--fond:#ffffff;--creme:#F7F4EE;--carte:#ffffff;--encre:#16252a;--doux:#56646a;--petrole:#0F3B47;--cuivre:#C9772F;--trait:#e3ddd2}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--fond);color:var(--encre);font:17px/1.65 -apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+a{color:var(--petrole)}
+img{max-width:100%;display:block}
+.w{max-width:1080px;margin:0 auto;padding:0 20px}
+header{padding:18px 0;border-bottom:1px solid var(--trait)}
+header .w{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo img{height:40px;width:auto}
+.droite{display:flex;align-items:center;gap:16px}.lang{font-size:15px;color:var(--doux);white-space:nowrap}.lang a{color:var(--doux);text-decoration:none}.lang b{color:var(--petrole)}
+.nav-cta{color:var(--petrole);font-weight:600;text-decoration:none;border:2px solid var(--petrole);padding:7px 16px;border-radius:9px;white-space:nowrap}
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:520px;background:var(--creme)}
+.hero-txt{padding:64px 48px 56px max(20px,calc((100vw - 1080px)/2 + 20px));display:flex;flex-direction:column;justify-content:center}
+.tagline{color:var(--cuivre);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:14px;margin:0 0 14px}
+.hero h1{font:700 clamp(32px,4.4vw,50px)/1.12 Georgia,"Times New Roman",serif;color:var(--petrole);margin:0 0 18px}
+.hero p{font-size:clamp(18px,2vw,20px);color:var(--doux);margin:0 0 28px;max-width:30em}
+.hero-img{background:url(../img/entete.jpg) center/cover no-repeat;min-height:320px}
+.btn{display:inline-block;align-self:flex-start;background:var(--petrole);color:#fff;text-decoration:none;padding:14px 24px;border-radius:10px;font-weight:600}
+.btn:hover{background:#0b2c35}
+section{padding:64px 0}
+h2{font:700 30px/1.25 Georgia,"Times New Roman",serif;color:var(--petrole);margin:0 0 28px}
+.etapes{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:e;padding:0;margin:0;list-style:none}
+.etapes li{border-top:3px solid var(--cuivre);padding-top:14px;counter-increment:e;color:var(--doux)}
+.etapes li::before{content:"0" counter(e);display:block;font:700 15px/1 sans-serif;color:var(--cuivre);margin-bottom:8px}
+.etapes b{display:block;color:var(--encre);font-size:18px;margin-bottom:4px}
+.bande{background:var(--creme)}
+.pq{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:center}
+.pq img{border-radius:14px;width:100%;aspect-ratio:4/3;object-fit:cover}
+@media (max-width:860px){.pq{grid-template-columns:1fr;gap:22px}}
+.pourquoi p{font-size:20px;line-height:1.6;max-width:44em;margin:0;color:var(--encre)}
+.pourquoi h2{margin-bottom:14px}
+.portes{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.porte{background:var(--carte);border-radius:14px;overflow:hidden;box-shadow:0 1px 0 var(--trait),0 0 0 1px var(--trait)}
+.porte img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.porte div{padding:18px 20px 22px}
+.porte .tag{font-size:13px;letter-spacing:.07em;text-transform:uppercase;color:var(--cuivre);font-weight:700}
+.porte h3{margin:4px 0 8px;font:700 22px/1.2 Georgia,serif;color:var(--petrole)}
+.porte p{margin:0;color:var(--doux)}
+.ex{margin:26px 0 0;color:var(--doux);font-size:17px}.ex b{color:var(--petrole)}
+.eng{display:grid;grid-template-columns:repeat(2,1fr);gap:22px 40px;margin:0;padding:0;list-style:none}
+.eng li{padding-left:18px;border-left:3px solid var(--petrole)}
+.eng b{display:block;font-size:18px}
+.eng span{color:var(--doux)}
+.contact{background:var(--petrole);color:#fff;border-radius:18px;padding:40px 36px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between}
+.contact h2{color:#fff;margin:0 0 8px}
+.contact p{margin:0;opacity:.9;font-size:18px}
+.contact .liens a{display:inline-block;color:var(--petrole);background:#fff;text-decoration:none;font-weight:700;padding:13px 22px;border-radius:10px;margin:4px 8px 4px 0}
+.contact .liens a.sec{background:transparent;color:#fff;border:2px solid #fff}
+footer{border-top:1px solid var(--trait);padding:26px 0 44px;font-size:14px;color:var(--doux)}
+footer .w{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between}
+footer p{margin:0 0 6px;max-width:62ch}
+footer img{height:26px;width:auto;margin-bottom:10px}
+@media (max-width:860px){
+ .hero{grid-template-columns:1fr}
+ .hero-img{order:-1;min-height:260px}
+ .hero-txt{padding:36px 20px 40px}
+ .etapes{grid-template-columns:repeat(2,1fr)}
+ .portes{grid-template-columns:1fr}
+ .eng{grid-template-columns:1fr}
+ section{padding:48px 0}
+ .contact{padding:30px 22px}
+}
+@media (max-width:420px){.droite{gap:10px}.lang{font-size:14px}.etapes{grid-template-columns:1fr}.logo img{height:32px}.nav-cta{padding:6px 12px;font-size:15px}}
+.vid{display:grid;grid-template-columns:1fr 320px;gap:40px;align-items:center}
+.vid video{width:100%;aspect-ratio:9/16;border-radius:14px;background:#000;display:block}
+.vid .note{font-size:14px;color:var(--doux);margin-top:14px}
+@media (max-width:860px){.vid{grid-template-columns:1fr}.vid video{max-width:340px;margin:0 auto}}
+@media print{.btn,.nav-cta{display:none}.hero{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="w">
+<a class="logo" href="/de/"><img src="../collega-logo.svg" alt="Collega"></a>
+<div class="droite"><nav class="lang"><a href="/" hreflang="fr" lang="fr">FR</a> · <b>DE</b></nav><a class="nav-cta" href="mailto:jocelyn@collega.ch">Schreiben Sie uns</a></div>
+</div></header>
+
+<div class="hero">
+<div class="hero-txt">
+<p class="tagline">Ein Kollege mehr</p>
+<h1>Was Ihnen Zeit raubt, machen wir zum Werkzeug.</h1>
+<p>Sie erzählen uns, was sich in Ihrem KMU ständig wiederholt. Collega baut das passende Werkzeug, steht dafür ein, und es bleibt Ihres.</p>
+<a class="btn" href="mailto:jocelyn@collega.ch">Reden wir darüber</a>
+</div>
+<div class="hero-img" role="img" aria-label="Zwei Bauarbeiter auf einer Rohbaustelle"></div>
+</div>
+
+<section class="pourquoi"><div class="w pq">
+<div>
+<h2>Warum Collega?</h2>
+<p>«Collega» heisst auf Italienisch Kollege, und fast gleich auf Deutsch und Französisch. Genau das wollen wir für Ihr Unternehmen sein: kein weiterer Dienstleister, sondern ein Kollege, der Ihren Betrieb kennt, das Wiederkehrende übernimmt und Ihrem Team die Zeit für sein eigentliches Handwerk zurückgibt.</p>
+</div>
+<img src="../img/maraicher.jpg" alt="Eine Gemüsegärtnerin schaut in ihrem Gewächshaus auf ein Tablet" loading="lazy">
+</div></section>
+
+<section id="video" class="bande"><div class="w vid">
+<div>
+<h2>Collega in einer Minute</h2>
+<p style="font-size:20px;margin:0">Was sich wiederholt, was verloren geht, was an einer einzigen Person hängt: wie wir daraus ein Werkzeug machen, und was wir dabei garantieren.</p>
+<p class="note">Präsentation mit KI erstellt (NotebookLM), von uns geprüft und freigegeben. So arbeiten wir auch: Die KI bereitet vor, ein Mensch prüft.</p>
+</div>
+<video controls playsinline preload="none" poster="../img/video-poster-de.jpg"><source src="../video/collega-de.mp4" type="video/mp4">Ihr Browser kann das Video nicht abspielen.</video>
+</div></section>
+
+<section><div class="w">
+<h2>So läuft es ab</h2>
+<ol class="etapes">
+<li><b>Wir hören zu</b>Bei Ihnen oder am Telefon erzählen Sie, was sich wiederholt, was verloren geht, was an einer einzigen Person hängt. Kein Pflichtenheft.</li>
+<li><b>Wir bauen</b>Ein einfaches Werkzeug, gedacht für Ihr Handwerk und Ihre Gewohnheiten. Das erste Werkzeug ist in 1 bis 2 Wochen im Einsatz.</li>
+<li><b>Sie geben frei</b>Ihr Team testet es im echten Arbeitsalltag. Nichts startet ohne Ihr Einverständnis.</li>
+<li><b>Es bleibt Ihres</b>Das Werkzeug und seine Daten gehören Ihnen. Sie können jederzeit alles mitnehmen.</li>
+</ol>
+</div></section>
+
+<section class="bande"><div class="w">
+<h2>Drei Arten der Zusammenarbeit</h2>
+<div class="portes">
+<div class="porte"><img src="../img/atelier.jpg" alt="Ein Elektriker bei der Arbeit an einer Installation" loading="lazy"><div><span class="tag">Massarbeit</span><h3>Werkstatt</h3><p>Für einen Bedarf, der nur Ihr Unternehmen betrifft. Wir kommen zu Ihnen und bauen das Werkzeug mit Ihrem Team, in seinem Tempo.</p></div></div>
+<div class="porte"><img src="../img/guichet.jpg" alt="Eine Bäckerin hinter ihrer Theke" loading="lazy"><div><span class="tag">Demnächst</span><h3>Schalter</h3><p>Für den üblichen Bedarf: Offerten, Abläufe, Nachverfolgung. Sie beantworten die Fragen eines Assistenten, Ihr Werkzeug ist bereit zur Freigabe.</p></div></div>
+<div class="porte"><img src="../img/entretien.jpg" alt="Ein Mechaniker arbeitet in seiner Garage unter einem Auto" loading="lazy"><div><span class="tag">Abonnement</span><h3>Wartung</h3><p>Damit das Werkzeug mit Ihrem Unternehmen mitwächst: Aktualisierungen, Korrekturen und ein Ansprechpartner, der Ihren Betrieb kennt.</p></div></div>
+</div>
+<p class="ex"><b>Was wir zum Beispiel bauen:</b> dokumentierte Abläufe · Offerten · Kundenbetreuung · Baustellenverfolgung · Auftragsverfolgung · Sicherheitsschulungen.</p>
+</div></section>
+
+<section><div class="w">
+<h2>Unsere Zusagen</h2>
+<ul class="eng">
+<li><b>Ihre Daten sind geschützt</b><span>Wir halten uns an das Schweizer Datenschutzgesetz (DSG) und zusätzlich an die DSGVO, wenn Sie mit der Europäischen Union arbeiten. Keine Kundendaten laufen über einen Gratisdienst, der sie zum Trainieren seiner Modelle verwendet.</span></li>
+<li><b>Jedes Werkzeug wird geprüft</b><span>Vor der Inbetriebnahme gelesen und getestet, danach laufend begleitet. Die KI bereitet vor, ein Mensch prüft, und Collega steht für das Ergebnis ein.</span></li>
+<li><b>Das Werkzeug bleibt bei Ihnen</b><span>Es gehört Ihnen, mit allen Daten. Der Ausstieg ist geregelt, bevor wir anfangen: Wenn Sie aufhören, nehmen Sie alles mit, als PDF und in offenen Dateiformaten.</span></li>
+<li><b>Einfach und langlebig</b><span>Schlichte Werkzeuge, die Ihr Team vom ersten Tag an bedienen kann. Was Ihnen keine Zeit spart, kommt nicht hinein.</span></li>
+</ul>
+</div></section>
+
+<section style="padding-top:0"><div class="w">
+<div class="contact">
+<div><h2>Reden wir darüber, was Ihnen Zeit raubt</h2><p>Ein einziger Ansprechpartner, vom ersten Anruf bis zur Inbetriebnahme.</p></div>
+<div class="liens"><a href="mailto:jocelyn@collega.ch">Schreiben Sie uns</a><a class="sec" href="tel:+41772690620">+41 77 269 06 20</a></div>
+</div>
+</div></section>
+
+<footer><div class="w">
+<div><img src="../collega-logo.svg" alt="Collega"><p>Massgeschneiderte Werkzeuge für Schweizer KMU.</p></div>
+<div>
+<p><b>Impressum.</b> Collega · Jocelyn Bussy · Chemin des Oiseaux 12 · 1433 Suchy · Suisse · jocelyn@collega.ch</p>
+<p><b>Datenschutz.</b> Diese Website verwendet weder Cookies noch Besucherstatistik noch Formulare. Wenn Sie uns schreiben, dient Ihre Nachricht nur dazu, Ihnen zu antworten.</p>
+<p>Fotos: Unsplash.</p>
+</div>
+</div></footer>
+</body>
+</html>
