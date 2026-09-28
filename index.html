@@ -10,6 +10,8 @@
 <meta property="og:url" content="https://collega.ch/">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://collega.ch/img/entete.jpg">
+<link rel="alternate" hreflang="fr" href="https://collega.ch/">
+<link rel="alternate" hreflang="de" href="https://collega.ch/de/">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
 :root{--fond:#ffffff;--creme:#F7F4EE;--carte:#ffffff;--encre:#16252a;--doux:#56646a;--petrole:#0F3B47;--cuivre:#C9772F;--trait:#e3ddd2}
@@ -22,6 +24,7 @@ img{max-width:100%;display:block}
 header{padding:18px 0;border-bottom:1px solid var(--trait)}
 header .w{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo img{height:40px;width:auto}
+.droite{display:flex;align-items:center;gap:16px}.lang{font-size:15px;color:var(--doux);white-space:nowrap}.lang a{color:var(--doux);text-decoration:none}.lang b{color:var(--petrole)}
 .nav-cta{color:var(--petrole);font-weight:600;text-decoration:none;border:2px solid var(--petrole);padding:7px 16px;border-radius:9px;white-space:nowrap}
 .hero{display:grid;grid-template-columns:1fr 1fr;min-height:520px;background:var(--creme)}
 .hero-txt{padding:64px 48px 56px max(20px,calc((100vw - 1080px)/2 + 20px));display:flex;flex-direction:column;justify-content:center}
@@ -74,7 +77,7 @@ footer img{height:26px;width:auto;margin-bottom:10px}
  section{padding:48px 0}
  .contact{padding:30px 22px}
 }
-@media (max-width:420px){.etapes{grid-template-columns:1fr}.logo img{height:32px}.nav-cta{padding:6px 12px;font-size:15px}}
+@media (max-width:420px){.droite{gap:10px}.lang{font-size:14px}.etapes{grid-template-columns:1fr}.logo img{height:32px}.nav-cta{padding:6px 12px;font-size:15px}}
 .vid{display:grid;grid-template-columns:1fr 320px;gap:40px;align-items:center}
 .vid video{width:100%;aspect-ratio:9/16;border-radius:14px;background:#000;display:block}
 .vid .note{font-size:14px;color:var(--doux);margin-top:14px}
@@ -85,7 +88,7 @@ footer img{height:26px;width:auto;margin-bottom:10px}
 <body>
 <header><div class="w">
 <a class="logo" href="/"><img src="collega-logo.svg" alt="Collega"></a>
-<a class="nav-cta" href="mailto:jocelyn@collega.ch">Nous écrire</a>
+<div class="droite"><nav class="lang"><b>FR</b> · <a href="/de/" hreflang="de" lang="de">DE</a></nav><a class="nav-cta" href="mailto:jocelyn@collega.ch">Nous écrire</a></div>
 </div></header>
 
 <div class="hero">
