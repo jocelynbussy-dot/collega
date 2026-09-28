@@ -26,7 +26,7 @@ header .w{display:flex;align-items:center;justify-content:space-between;gap:16px
 .logo img{height:40px;width:auto}
 .droite{display:flex;align-items:center;gap:16px}.lang{font-size:15px;color:var(--doux);white-space:nowrap}.lang a{color:var(--doux);text-decoration:none}.lang b{color:var(--petrole)}
 .nav-cta{color:var(--petrole);font-weight:600;text-decoration:none;border:2px solid var(--petrole);padding:7px 16px;border-radius:9px;white-space:nowrap}
-.hero{display:grid;grid-template-columns:1fr 1fr;min-height:520px;background:var(--creme)}
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:580px;background:var(--creme)}
 .hero-txt{padding:64px 48px 56px max(20px,calc((100vw - 1080px)/2 + 20px));display:flex;flex-direction:column;justify-content:center}
 .tagline{color:var(--cuivre);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:14px;margin:0 0 14px}
 .hero h1{font:700 clamp(32px,4.4vw,50px)/1.12 Georgia,"Times New Roman",serif;color:var(--petrole);margin:0 0 18px}
@@ -58,7 +58,8 @@ h2{font:700 30px/1.25 Georgia,"Times New Roman",serif;color:var(--petrole);margi
 .eng li{padding-left:18px;border-left:3px solid var(--petrole)}
 .eng b{display:block;font-size:18px}
 .eng span{color:var(--doux)}
-.contact{background:var(--petrole);color:#fff;border-radius:18px;padding:40px 36px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between}
+.contact{background:var(--petrole);color:#fff;border-radius:18px;padding:40px 36px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+.contact .liens{white-space:nowrap}
 .contact h2{color:#fff;margin:0 0 8px}
 .contact p{margin:0;opacity:.9;font-size:18px}
 .contact .liens a{display:inline-block;color:var(--petrole);background:#fff;text-decoration:none;font-weight:700;padding:13px 22px;border-radius:10px;margin:4px 8px 4px 0}
@@ -75,7 +76,7 @@ footer img{height:26px;width:auto;margin-bottom:10px}
  .portes{grid-template-columns:1fr}
  .eng{grid-template-columns:1fr}
  section{padding:48px 0}
- .contact{padding:30px 22px}
+ .contact{padding:30px 22px;grid-template-columns:1fr}.contact .liens{white-space:normal}
 }
 @media (max-width:420px){.droite{gap:10px}.lang{font-size:14px}.etapes{grid-template-columns:1fr}.logo img{height:32px}.nav-cta{padding:6px 12px;font-size:15px}}
 .vid{display:grid;grid-template-columns:1fr 320px;gap:40px;align-items:center}
