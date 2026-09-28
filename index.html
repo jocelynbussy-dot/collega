@@ -75,6 +75,10 @@ footer img{height:26px;width:auto;margin-bottom:10px}
  .contact{padding:30px 22px}
 }
 @media (max-width:420px){.etapes{grid-template-columns:1fr}.logo img{height:32px}.nav-cta{padding:6px 12px;font-size:15px}}
+.vid{display:grid;grid-template-columns:1fr 320px;gap:40px;align-items:center}
+.vid video{width:100%;aspect-ratio:9/16;border-radius:14px;background:#000;display:block}
+.vid .note{font-size:14px;color:var(--doux);margin-top:14px}
+@media (max-width:860px){.vid{grid-template-columns:1fr}.vid video{max-width:340px;margin:0 auto}}
 @media print{.btn,.nav-cta{display:none}.hero{grid-template-columns:1fr}}
 </style>
 </head>
@@ -102,7 +106,16 @@ footer img{height:26px;width:auto;margin-bottom:10px}
 <img src="img/maraicher.jpg" alt="Une maraîchère consulte une tablette dans sa serre" loading="lazy">
 </div></section>
 
-<section style="padding-top:0"><div class="w">
+<section id="video" class="bande"><div class="w vid">
+<div>
+<h2>Collega en une minute</h2>
+<p style="font-size:20px;margin:0">Ce qui se répète, ce qui se perd, ce qui dépend d'une seule personne : comment on en fait un outil, et les trois garanties qui vont avec.</p>
+<p class="note">Présentation générée avec l'IA (NotebookLM), relue et validée par nous. C'est aussi comme ça que nous travaillons : l'IA prépare, un humain vérifie.</p>
+</div>
+<video controls playsinline preload="none" poster="img/video-poster.jpg"><source src="video/collega.mp4" type="video/mp4">Votre navigateur ne lit pas la vidéo.</video>
+</div></section>
+
+<section><div class="w">
 <h2>Comment ça se passe</h2>
 <ol class="etapes">
 <li><b>On vous écoute</b>Chez vous ou au téléphone, vous racontez ce qui se répète, ce qui se perd, ce qui dépend d'une seule personne. Pas de cahier des charges.</li>
