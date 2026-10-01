@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg">
+<title>Les messages du week-end</title>
+<style>
+/* Mise en page : une colonne étroite qui suit un week-end en deux temps (les messages arrivent, le lundi tout est trié). Couleurs et polices reprises du site collega.ch (look clair assumé). */
+:root{
+  --fond:#ffffff; --creme:#F7F4EE; --encre:#16252a; --doux:#56646a;
+  --petrole:#0F3B47; --cuivre:#C9772F; --trait:#e3ddd2;
+  --ok:#2f7a4f; --ok-fond:#e6f2ea; --attente:#9a5a12; --attente-fond:#fbeedd;
+  --titre:Georgia,"Times New Roman",serif;
+  --texte:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fond);color:var(--encre);font:17px/1.6 var(--texte)}
+.w{max-width:860px;margin:0 auto;padding-inline:20px}
+header{border-bottom:1px solid var(--trait);padding-block:16px}
+header .w{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.marque{display:block;line-height:0}
+.marque img{height:36px;width:auto;display:block}
+.fictif{font-size:13px;color:var(--doux);background:var(--creme);border:1px solid var(--trait);padding:4px 10px;border-radius:20px}
+.intro{background:var(--creme);padding-block:44px 40px}
+.tag{color:var(--cuivre);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:13px;margin:0 0 10px}
+h1{font:700 clamp(28px,4.4vw,42px)/1.15 var(--titre);color:var(--petrole);margin:0 0 14px;text-wrap:balance;max-width:20em}
+.intro p{margin:0;color:var(--doux);max-width:36em;font-size:18px}
+section{padding-block:40px;border-bottom:1px solid var(--trait)}
+.moment{margin:0 0 6px;font:700 14px/1 var(--texte);color:var(--cuivre);letter-spacing:.06em;text-transform:uppercase}
+h2{font:700 25px/1.25 var(--titre);color:var(--petrole);margin:0 0 8px;text-wrap:balance}
+.sous{color:var(--doux);margin:0 0 20px;max-width:38em}
+.boite{border:1px solid var(--trait);border-radius:12px;overflow:hidden;background:var(--fond)}
+.boite-tete{background:var(--creme);padding:10px 16px;font-size:14px;color:var(--doux);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--trait)}
+.col-titre{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--doux);font-weight:600;margin:14px 16px 0}
+.questions{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px 16px}
+.q{font:600 15px/1.3 var(--texte);padding:10px 14px;border-radius:20px;border:2px solid var(--petrole);background:transparent;color:var(--petrole);cursor:pointer;text-align:left}
+.q small{font-weight:400}
+.q[aria-pressed="true"]{background:var(--petrole);color:#fff}
+.q:focus-visible{outline:3px solid var(--cuivre);outline-offset:2px}
+.fil{padding:18px 16px;display:grid;gap:10px;min-height:170px;background:#fcfbf8;border-bottom:1px solid var(--trait)}
+.bulle{max-width:80%;padding:10px 14px;border-radius:14px;font-size:15.5px;line-height:1.5}
+.bulle .qui{display:block;font-size:12.5px;opacity:.8;margin-bottom:2px}
+.bulle.loc{justify-self:end;background:var(--petrole);color:#fff;border-bottom-right-radius:4px}
+.bulle.ass{justify-self:start;background:var(--fond);border:1px solid var(--trait);border-bottom-left-radius:4px}
+.src{display:inline-block;margin-top:8px;font-size:13px;color:var(--ok);background:var(--ok-fond);padding:3px 9px;border-radius:6px}
+.src.att{color:var(--attente);background:var(--attente-fond)}
+.vide{color:var(--doux);font-size:15px;padding:10px 0;margin:0}
+.defile{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15.5px;min-width:560px}
+th{text-align:left;font-weight:600;color:var(--doux);font-size:13px;letter-spacing:.05em;text-transform:uppercase;padding:10px 16px;border-bottom:1px solid var(--trait)}
+td{padding:12px 16px;border-bottom:1px solid var(--trait);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td .quand{display:block;color:var(--doux);font-size:14px}
+td.rien{color:var(--doux);text-align:center;padding:28px 16px}
+.pill{display:inline-block;font-size:13px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.pill.att{background:var(--attente-fond);color:var(--attente)}
+.pill.ok{background:var(--ok-fond);color:var(--ok)}
+.vu{display:block;margin-top:8px;font:600 13px/1 var(--texte);padding:7px 10px;border-radius:6px;border:1.5px solid var(--petrole);background:var(--fond);color:var(--petrole);cursor:pointer;white-space:nowrap}
+.vu:focus-visible{outline:3px solid var(--cuivre);outline-offset:2px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;padding:14px 20px;border-top:1px solid var(--trait);background:var(--creme);align-items:center}
+.actions button{font:600 15.5px/1 var(--texte);padding:12px 18px;border-radius:9px;border:2px solid var(--petrole);cursor:pointer;background:transparent;color:var(--petrole)}
+.actions button:focus-visible{outline:3px solid var(--cuivre);outline-offset:2px}
+.note{font-size:14px;color:var(--doux)}
+.bilan{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.bilan div{padding-top:12px;border-top:3px solid var(--trait)}
+.bilan div.apres{border-top-color:var(--petrole)}
+.bilan h3{margin:0 0 6px;font:700 19px/1.3 var(--titre);color:var(--petrole)}
+.bilan ul{margin:0;padding-left:18px;color:var(--doux)}
+.fin{background:var(--petrole);color:#fff;border-radius:16px;padding:30px 28px;margin-block:40px}
+.fin h2{color:#fff}
+.fin p{margin:0 0 14px;opacity:.92;max-width:36em}
+.fin .coord{font-weight:600;user-select:all}
+footer{padding-block:0 40px;font-size:13.5px;color:var(--doux)}
+@media (max-width:700px){
+  .bulle{max-width:92%}
+  .bilan{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+
+<header><div class="w">
+  <a class="marque" href="https://collega.ch/"><img src="/collega-logo.svg" alt="Collega"></a>
+  <span class="fictif">Exemple fictif : immeubles, personnes et règlements inventés</span>
+</div></header>
+
+<div class="intro"><div class="w">
+  <p class="tag">Exemple · Régie</p>
+  <h1>Les locataires écrivent le week-end. Le lundi, tout est déjà trié.</h1>
+  <p>Dans beaucoup de régies, les locataires écrivent quand les bureaux sont fermés : le soir, le week-end. Le lundi, il faut tout reprendre, séparer l'urgent du courant, et répondre plusieurs fois la même chose. Voici à quoi ressemble un week-end quand un assistant répond avec ce que la régie a déjà écrit, et transmet le reste. Cliquez, rien à installer.</p>
+</div></div>
+
+<main class="w">
+
+<section>
+  <p class="moment">Du samedi soir au dimanche</p>
+  <h2>Un locataire écrit, l'assistant répond avec ce que la régie a écrit</h2>
+  <p class="sous">L'assistant s'annonce comme automatique. Il ne répond qu'avec les règlements et les consignes que la régie a écrits et validés, et il cite sa source. Une urgence part au service de piquet. Quand rien n'est écrit, il ne répond pas à la place de la régie : il transmet. Faites arriver un message.</p>
+  <div class="boite">
+    <div class="boite-tete"><span>Assistant de la régie</span><span>Réponse automatique, bureaux fermés</span></div>
+    <div class="fil" id="fil" aria-live="polite"><p class="vide">Choisissez un message ci-dessous, comme s'il venait d'arriver.</p></div>
+    <p class="col-titre">Messages des locataires</p>
+    <div class="questions" id="messages"></div>
+  </div>
+</section>
+
+<section>
+  <p class="moment">Lundi, 7 h 30</p>
+  <h2>La gérante trouve son week-end résumé</h2>
+  <p class="sous">Une ligne par message : qui a écrit, ce qui a été répondu ou transmis, et ce qui l'attend, elle. Personne n'a eu à trier la boîte de réception.</p>
+  <div class="boite">
+    <div class="boite-tete"><span>Messages reçus pendant la fermeture</span><span id="compteur"></span></div>
+    <div class="defile"><table>
+      <thead><tr><th>Locataire</th><th>Demande</th><th>Ce qui a été fait</th><th>État</th></tr></thead>
+      <tbody id="liste"></tbody>
+    </table></div>
+    <div class="actions">
+      <button id="recommencer" type="button">Recommencer</button>
+      <span class="note">Dans la démo, aucun message ne part réellement.</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Ce qui change, et ce qui reste votre métier</h2>
+  <div class="bilan">
+    <div>
+      <h3>Souvent, aujourd'hui</h3>
+      <ul>
+        <li>Le lundi matin, la boîte de réception est pleine ?</li>
+        <li>Les mêmes questions reviennent, alors que la réponse est dans le règlement ?</li>
+        <li>Une vraie urgence peut se perdre au milieu du reste ?</li>
+      </ul>
+    </div>
+    <div class="apres">
+      <h3>Avec l'assistant</h3>
+      <ul>
+        <li>Les questions courantes reçoivent une réponse tirée de vos textes, avec sa source.</li>
+        <li>Une urgence part tout de suite au service de piquet, selon vos consignes.</li>
+        <li>Ce qui n'est écrit nulle part n'est pas inventé : la question vous attend, classée.</li>
+        <li>La décision reste à vous, comme la relation avec le locataire et le propriétaire.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="fin">
+  <h2>Et chez vous ?</h2>
+  <p>Cet exemple est fictif. Chez vous, l'assistant partirait de vos règlements, de vos consignes d'urgence et de votre façon de répondre. Il vous appartient avec ses données. Nous appliquons la loi suisse sur la protection des données (LPD), et le RGPD en plus si vous travaillez avec l'Union européenne.</p>
+  <p>Écrivez-moi ou appelez-moi, je vous le montre sur les questions que vous recevez réellement :<br>
+  <span class="coord">jocelyn@collega.ch</span> · <span class="coord">+41 77 269 06 20</span></p>
+</div>
+
+</main>
+
+<footer><div class="w">Collega · Jocelyn Bussy · 1433 Suchy · Démonstration : aucune donnée réelle, aucun envoi réel.</div></footer>
+
+<script>
+(function(){
+  // attend:true = la gérante doit encore y passer le lundi
+  var messages=[
+    {qui:"Madame Besson", ou:"Verger 4, 3e étage", quand:"samedi, 21 h 10",
+     q:"Bonsoir, est-ce que je peux utiliser la buanderie demain dimanche ?",
+     r:"Bonsoir Madame Besson. D'après le règlement de maison de votre immeuble, la buanderie est ouverte du lundi au samedi, de 7 h à 21 h. Elle est fermée le dimanche.",
+     src:"Source : règlement de maison, Verger 4, article 5", ok:true,
+     demande:"Buanderie le dimanche", fait:"Réponse donnée, avec la source", attend:false},
+    {qui:"Monsieur Nicolet", ou:"Verger 6, rez-de-chaussée", quand:"samedi, 22 h 40",
+     q:"Il n'y a plus d'eau chaude dans tout l'appartement depuis ce soir.",
+     r:"Bonsoir Monsieur Nicolet. Les consignes de la régie prévoient qu'une panne d'eau chaude est signalée au chauffagiste de piquet. Je lui ai transmis votre message et votre numéro : c'est lui qui vous rappelle. La gérante en sera informée lundi matin.",
+     src:"Source : consignes de la régie, pannes de chauffage et d'eau chaude", ok:true,
+     demande:"Plus d'eau chaude", fait:"Chauffagiste de piquet prévenu samedi à 22 h 41", attend:true},
+    {qui:"Madame Cuendet", ou:"Verger 4, 1er étage", quand:"dimanche, 6 h 50",
+     q:"De l'eau coule du plafond de ma salle de bain, ça vient de l'appartement du dessus !",
+     r:"Réponse automatique de la régie. C'est une urgence : je préviens tout de suite le service de piquet de la régie, avec votre adresse et votre message. Restez joignable à ce numéro.",
+     src:"Source : consignes d'urgence de la régie, dégât d'eau", ok:true,
+     demande:"Eau qui coule du plafond", fait:"Service de piquet de la régie prévenu dimanche à 6 h 51", attend:true},
+    {qui:"Monsieur Jordan", ou:"Verger 6, 3e étage", quand:"dimanche, 15 h 20",
+     q:"Est-ce que j'ai le droit d'installer une parabole sur mon balcon ?",
+     r:"Bonjour Monsieur Jordan. Je n'ai pas de réponse écrite de la régie à ce sujet, et je ne réponds pas à sa place. Votre question est transmise à la gérante, qui la reçoit lundi à l'ouverture des bureaux.",
+     src:"Question transmise à la gérante", ok:false,
+     demande:"Parabole sur le balcon", fait:"Rien d'écrit par la régie : question transmise, sans réponse inventée", attend:true}
+  ];
+  var recu, vu, courant;
+  var $=function(id){return document.getElementById(id)};
+
+  function init(){
+    recu=messages.map(function(){return false}); vu=messages.map(function(){return false}); courant=null;
+    $("fil").innerHTML='<p class="vide">Choisissez un message ci-dessous, comme s\'il venait d\'arriver.</p>';
+    rendre();
+  }
+  function rendre(){
+    var z=$("messages"); z.innerHTML="";
+    messages.forEach(function(m,k){
+      var b=document.createElement("button"); b.type="button"; b.className="q";
+      b.innerHTML=m.qui+" <small>· "+m.quand+(recu[k]?" ✓":"")+"</small>";
+      b.setAttribute("aria-pressed", courant===k?"true":"false");
+      b.onclick=function(){courant=k; recu[k]=true; montrer(k); rendre()};
+      z.appendChild(b);
+    });
+    var tb=$("liste"); tb.innerHTML=""; var n=0, a=0;
+    messages.forEach(function(m,k){
+      if(!recu[k]) return; n++;
+      var tr=document.createElement("tr"), etat;
+      if(!m.attend){ etat='<span class="pill ok">Répondu</span>'; }
+      else if(vu[k]){ etat='<span class="pill ok">'+(m.ok?"Vu lundi":"Traité lundi")+'</span>'; }
+      else { a++; etat='<span class="pill att">'+(m.ok?"À suivre":"À traiter")+'</span><button type="button" class="vu">'+(m.ok?"Marquer comme vu":"Marquer comme traité")+'</button>'; }
+      tr.innerHTML='<td>'+m.qui+'<span class="quand">'+m.ou+'</span></td><td>'+m.demande+'<span class="quand">'+m.quand+'</span></td><td>'+m.fait+'</td><td>'+etat+'</td>';
+      var bouton=tr.querySelector(".vu"); if(bouton) bouton.onclick=function(){vu[k]=true; rendre()};
+      tb.appendChild(tr);
+    });
+    if(!n) tb.innerHTML='<tr><td class="rien" colspan="4">Encore vide. Faites arriver un message ci-dessus.</td></tr>';
+    $("compteur").textContent = !n ? "Aucun message pour l'instant"
+      : (n>1? n+" messages reçus" : "1 message reçu")+" · "+(a===0? "rien ne vous attend" : a===1? "1 vous attend" : a+" vous attendent");
+  }
+  function montrer(k){
+    var m=messages[k], z=$("fil");
+    z.innerHTML='<div class="bulle loc"><span class="qui">'+m.qui+' · '+m.quand+'</span>'+m.q+'</div>'+
+      '<div class="bulle ass"><span class="qui">Assistant de la régie · réponse automatique</span>'+m.r+'<br><span class="src'+(m.ok?'':' att')+'">'+m.src+'</span></div>';
+  }
+  $("recommencer").onclick=init;
+  init();
+})();
+</script>
+
+</body>
+</html>
