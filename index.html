@@ -54,6 +54,12 @@ h2{font:700 30px/1.25 Georgia,"Times New Roman",serif;color:var(--petrole);margi
 .porte .tag{font-size:13px;letter-spacing:.07em;text-transform:uppercase;color:var(--cuivre);font-weight:700}
 .porte h3{margin:4px 0 8px;font:700 22px/1.2 Georgia,serif;color:var(--petrole)}
 .porte p{margin:0;color:var(--doux)}
+a.porte{display:block;text-decoration:none;color:inherit}a.porte:hover{box-shadow:0 0 0 2px var(--cuivre)}
+.porte .voir{display:inline-block;margin-top:12px;color:var(--petrole);font-weight:600}
+@media (min-width:861px){.portes.deux{grid-template-columns:repeat(2,1fr)}}
+.nav-ex{color:var(--petrole);font-weight:600;text-decoration:none;white-space:nowrap}
+.hero-ex{display:none;align-self:flex-start;margin-top:16px;font-weight:600;text-decoration:none}
+@media (max-width:520px){.nav-ex{display:none}.hero-ex{display:inline-block}}
 .ex{margin:26px 0 0;color:var(--doux);font-size:17px}.ex b{color:var(--petrole)}
 .eng{display:grid;grid-template-columns:repeat(2,1fr);gap:22px 40px;margin:0;padding:0;list-style:none}
 .eng li{padding-left:18px;border-left:3px solid var(--petrole)}
@@ -90,7 +96,7 @@ footer img{height:26px;width:auto;margin-bottom:10px}
 <body>
 <header><div class="w">
 <a class="logo" href="/"><img src="collega-logo.svg" alt="Collega"></a>
-<div class="droite"><nav class="lang"><b>FR</b> · <a href="/de/" hreflang="de" lang="de">DE</a></nav><a class="nav-cta" href="mailto:jocelyn@collega.ch">Nous écrire</a></div>
+<div class="droite"><!--fr--><a class="nav-ex" href="#exemples">Exemples</a><!--/fr--><nav class="lang"><b>FR</b> · <a href="/de/" hreflang="de" lang="de">DE</a></nav><a class="nav-cta" href="mailto:jocelyn@collega.ch">Nous écrire</a></div>
 </div></header>
 
 <div class="hero">
@@ -98,7 +104,7 @@ footer img{height:26px;width:auto;margin-bottom:10px}
 <p class="tagline">Le collègue en plus</p>
 <h1>Ce qui vous prend du temps, on en fait un outil.</h1>
 <p>Vous expliquez de vive voix ce qui se répète dans votre PME. Collega construit l'outil sur mesure, le garantit, et il reste à vous.</p>
-<a class="btn" href="mailto:jocelyn@collega.ch">Parlons-en</a>
+<a class="btn" href="mailto:jocelyn@collega.ch">Parlons-en</a><!--fr--><a class="hero-ex" href="#exemples">Exemples →</a><!--/fr-->
 </div>
 <div class="hero-img" role="img" aria-label="Deux ouvriers sur un chantier de gros œuvre"></div>
 </div>
@@ -139,6 +145,14 @@ footer img{height:26px;width:auto;margin-bottom:10px}
 </div>
 <p class="ex"><b>Ce que nous construisons, par exemple :</b> procédures documentées · devis · suivi des clients · suivi des chantiers · suivi des commandes · formations sécurité.</p>
 </div></section>
+
+<!--fr--><section id="exemples"><div class="w">
+<h2>Exemples</h2>
+<div class="portes deux">
+<a class="porte" href="/exemples/fiduciaire/"><div><span class="tag">Fiduciaire</span><h3>Les pièces de vos clients arrivent, et se rangent seules.</h3><p>Exemple fictif. Cliquez, rien à installer.</p><span class="voir">Voir l'exemple →</span></div></a>
+<a class="porte" href="/exemples/transmission/"><div><span class="tag">Transmission d'entreprise</span><h3>Ce que le patron sait, il le raconte. L'entreprise le garde.</h3><p>Exemple fictif. Cliquez, rien à installer.</p><span class="voir">Voir l'exemple →</span></div></a>
+</div>
+</div></section><!--/fr-->
 
 <section><div class="w">
 <h2>Nos engagements</h2>
