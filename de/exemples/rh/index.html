@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg">
+<title>Eine Saison im Abpackbetrieb</title>
+<style>
+.note-sans{background:#FBF3EA;border-left:3px solid var(--cuivre);padding:8px 12px;margin:8px 0;font-size:.95rem}
+.sans-outil table{opacity:.5}
+.sans-outil button{opacity:.6}
+:root{
+  --fond:#ffffff; --creme:#F7F4EE; --encre:#16252a; --doux:#56646a;
+  --petrole:#0F3B47; --cuivre:#C9772F; --cuivre-texte:#9A5418; --trait:#e3ddd2;
+  --ok:#2f7a4f; --ok-fond:#e6f2ea; --attente:#9a5a12; --attente-fond:#fbeedd;
+  --titre:Georgia,"Times New Roman",serif;
+  --texte:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fond);color:var(--encre);font:17px/1.6 var(--texte)}
+.w{max-width:860px;margin:0 auto;padding-inline:20px}
+header{border-bottom:1px solid var(--trait);padding-block:16px}
+header .w{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.marque{display:block;line-height:0}
+.marque img{height:36px;width:auto;display:block}
+.fictif{font-size:13px;color:var(--doux);background:var(--creme);border:1px solid var(--trait);padding:4px 10px;border-radius:20px}
+.intro{background:var(--creme);padding-block:44px 40px}
+.tag{color:var(--cuivre-texte);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:13px;margin:0 0 10px}
+h1{font:700 clamp(28px,4.4vw,42px)/1.15 var(--titre);color:var(--petrole);margin:0 0 14px;text-wrap:balance;max-width:20em}
+.intro p{margin:0;color:var(--doux);max-width:36em;font-size:18px}
+section{padding-block:40px;border-bottom:1px solid var(--trait)}
+.moment{margin:0 0 6px;font:700 14px/1 var(--texte);color:var(--cuivre-texte);letter-spacing:.06em;text-transform:uppercase}
+h2{font:700 25px/1.25 var(--titre);color:var(--petrole);margin:0 0 8px;text-wrap:balance}
+.sous{color:var(--doux);margin:0 0 20px;max-width:38em}
+.boite{border:1px solid var(--trait);border-radius:12px;overflow:hidden;background:var(--fond)}
+.boite-tete{background:var(--creme);padding:10px 16px;font-size:14px;color:var(--doux);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--trait)}
+.duo{display:grid;grid-template-columns:1fr 1.3fr;gap:0}
+.duo>div{min-width:0;padding:16px}
+.duo>div+div{border-left:1px solid var(--trait);background:#fcfbf8}
+.col-titre{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--doux);font-weight:600;margin:0 0 10px}
+.choix{display:block;width:100%;text-align:left;background:var(--fond);border:1px solid var(--trait);border-radius:10px;padding:12px 14px;margin:0 0 10px;font:600 16px/1.4 var(--texte);color:var(--encre);cursor:pointer}
+.choix:hover{border-color:var(--cuivre)}
+.choix:focus-visible{outline:3px solid var(--cuivre);outline-offset:2px}
+.choix small{display:block;font:400 13.5px/1.4 var(--texte);color:var(--doux);margin-top:2px}
+.choix[aria-pressed="true"]{border-color:var(--petrole);box-shadow:inset 4px 0 0 var(--petrole)}
+.dit{margin:0;font:italic 17px/1.55 var(--titre);color:var(--encre)}
+.lecture{display:grid;gap:10px;padding:18px 20px}
+.ligne{display:grid;grid-template-columns:150px 1fr;gap:10px;font-size:15.5px;opacity:.7;transition:opacity .35s}
+.ligne.vu{opacity:1}
+.ligne>span:first-child{color:var(--doux);font-size:14px}
+.ligne ul{margin:0;padding-left:18px}
+.brouillon{margin:0;padding:16px 20px;border-top:1px solid var(--trait);background:#fcfbf8;font:italic 16.5px/1.6 var(--titre);white-space:pre-line}
+.pill{display:inline-block;font-size:13px;font-weight:600;padding:3px 10px;border-radius:20px;font-variant-numeric:tabular-nums}
+.pill.att{background:var(--attente-fond);color:var(--attente)}
+.pill.ok{background:var(--ok-fond);color:var(--ok)}
+.defile{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15.5px;min-width:520px;font-variant-numeric:tabular-nums}
+th{text-align:left;font-weight:600;color:var(--doux);font-size:13px;letter-spacing:.05em;text-transform:uppercase;padding:10px 16px;border-bottom:1px solid var(--trait)}
+td{padding:10px 16px;border-bottom:1px solid var(--trait);vertical-align:top}
+th.d,td.d{text-align:right;white-space:nowrap}
+tfoot td{border-bottom:0;padding-block:6px;color:var(--doux)}
+tfoot tr:last-child td{color:var(--encre);font-weight:700;font-size:17px;padding-bottom:14px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;padding:14px 20px;border-top:1px solid var(--trait);background:var(--creme);align-items:center}
+.actions button{font:600 15.5px/1 var(--texte);padding:12px 18px;border-radius:9px;border:2px solid var(--petrole);cursor:pointer;background:var(--petrole);color:#fff}
+.actions button.sec{background:transparent;color:var(--petrole)}
+.actions button:disabled{opacity:.45;cursor:default}
+.actions button:focus-visible{outline:3px solid var(--cuivre);outline-offset:2px}
+.actions[hidden]{display:none}
+.note{font-size:14px;color:var(--doux)}
+.bilan{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.bilan div{padding-top:12px;border-top:3px solid var(--trait)}
+.bilan div.apres{border-top-color:var(--petrole)}
+.bilan h3{margin:0 0 6px;font:700 19px/1.3 var(--titre);color:var(--petrole)}
+.bilan ul{margin:0;padding-left:18px;color:var(--doux)}
+.fin{background:var(--petrole);color:#fff;border-radius:16px;padding:30px 28px;margin-block:40px}
+.fin h2{color:#fff}
+.fin p{margin:0 0 14px;opacity:.92;max-width:36em}
+.fin .coord{font-weight:600;user-select:all}
+footer{padding-block:0 40px;font-size:13.5px;color:var(--doux)}
+
+.fil{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--trait)}
+.fil ol{display:flex;gap:6px;list-style:none;margin:0 auto;padding:8px 20px;max-width:860px;overflow-x:auto}
+.fil a{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:20px;font:600 14px/1.2 var(--texte);color:var(--doux);text-decoration:none;white-space:nowrap;border:1px solid transparent}
+.fil a:focus-visible{outline:3px solid var(--cuivre);outline-offset:2px}
+.fil .n{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;border:2px solid var(--trait);font-size:12px;color:var(--doux)}
+.fil li.fait a{color:var(--ok)}
+.fil li.fait .n{background:var(--ok);border-color:var(--ok);color:#fff}
+.fil li.ici a{color:var(--petrole);background:var(--creme);border-color:var(--trait)}
+.fil li.ici .n{border-color:var(--petrole)}
+.fil li.fait.ici a{color:var(--ok)}
+.fil li.suivant a{border:1px dashed var(--cuivre)}
+.fil li.suivant .n{border-color:var(--cuivre);color:var(--cuivre-texte)}
+.reprise{margin:0 0 16px;padding:10px 14px;border-left:4px solid var(--cuivre);background:var(--creme);border-radius:0 8px 8px 0;font-size:15px;color:var(--encre)}
+.reprise b{color:var(--cuivre-texte);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:2px}
+.suite{display:inline-block;margin-top:14px;font-weight:600;color:var(--petrole)}
+.suite:focus-visible{outline:3px solid var(--cuivre);outline-offset:2px}
+.ligne>*{min-width:0}
+[hidden]{display:none!important}
+.bascule-ligne{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--trait)}
+.bascule{display:inline-flex;border:2px solid var(--petrole);border-radius:10px;overflow:hidden}
+.bascule button{font:600 15px/1 var(--texte);padding:11px 16px;border:0;background:transparent;color:var(--petrole);cursor:pointer}
+.bascule button[aria-pressed="true"]{background:var(--petrole);color:#fff}
+.bascule button:focus-visible{outline:3px solid var(--cuivre);outline-offset:-3px}
+.gestes-txt{font-weight:700;color:var(--petrole)}
+.gestes{list-style:none;margin:0;padding:12px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-bottom:1px solid var(--trait);background:#fcfbf8}
+.gestes li{display:flex;flex-direction:column;gap:6px;padding:9px 11px;border:1px solid var(--trait);border-radius:8px;background:#fff;font-size:14.5px;line-height:1.35}
+.gestes .pill{align-self:flex-start;font-size:12px}
+.pill.main{background:#eceff0;color:#3d4a50}
+.vide{margin:0;padding:22px 20px;color:var(--doux);font-style:italic}
+@media (max-width:700px){.gestes{grid-template-columns:1fr 1fr}}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+section{scroll-margin-top:56px}
+@media (max-width:700px){.fil li:not(.ici) .t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
+@media (max-width:700px){
+  .duo{grid-template-columns:1fr}
+  .duo>div+div{border-left:0;border-top:1px solid var(--trait)}
+  .bilan{grid-template-columns:1fr}
+  .ligne{grid-template-columns:1fr;gap:0}
+}
+@media (prefers-reduced-motion:reduce){.ligne{transition:none}}
+</style>
+</head>
+<body>
+
+<header><div class="w">
+  <a class="marque" href="https://collega.ch/de/"><img src="/collega-logo.svg" alt="Collega"></a>
+  <span class="fictif">Fiktives Beispiel: Namen, Daten und Beträge erfunden</span>
+</div></header>
+
+
+<div class="intro"><div class="w">
+  <p class="tag">Beispiel · Saison im Abpackbetrieb</p>
+  <h1>Die Saisonarbeitenden schreiben in ihrer Sprache. Jedes Anliegen findet seinen Weg zur richtigen Person.</h1>
+  <p>In einem Abpackbetrieb mit sechzig Personen, davon rund vierzig Saisonarbeitende, kommen vermutlich von Saison zu Saison oft dieselben Anliegen: ein Stundenauszug, ein Vorschuss, ein Unfall. Hier ein Tag in einem fiktiven Betrieb, in vier zusammenhängenden Schritten: Die Leiste oben zeigt, wo Sie gerade sind. Klicken Sie, es gibt nichts zu installieren.</p>
+</div></div>
+
+<nav class="fil" aria-label="Schritte der Demonstration"><ol id="fil"></ol></nav>
+<div class="sr-only" id="annonce" aria-live="polite"></div>
+
+<main class="w">
+
+<section id="e1">
+  <p class="moment">Schritt 1 · Dienstag, 7.10 Uhr</p>
+  <h2>Drei Saisonarbeitende schreiben vor Arbeitsbeginn</h2>
+  <p class="sous">Claire ist für das Personal zuständig, Herr Frei leitet den Betrieb. Wählen Sie eine der drei Nachrichten.</p>
+  <div class="boite">
+    <div class="duo">
+      <div>
+        <p class="col-titre">Eingegangene Nachrichten</p>
+        <div id="choix"></div>
+      </div>
+      <div>
+        <p class="col-titre">Die Nachricht, wie sie geschrieben wurde</p>
+        <p class="dit" id="dit"></p>
+      </div>
+    </div>
+  </div>
+  <a class="suite" href="#e2">Nächster Schritt: die Antwort</a>
+</section>
+
+<section id="e2">
+  <p class="moment">Schritt 2 · Einige Sekunden später</p>
+  <h2>Alle erhalten eine Antwort in ihrer Sprache</h2>
+  <p class="reprise" id="reprise2"></p>
+  <p class="sous">Das Werkzeug antwortet mit dem, was es belegen kann: ein Auszug, ein Ablauf, eine schriftliche Regel. Heute ist das Handarbeit: lesen, übersetzen, suchen, schreiben, weiterleiten, notieren. Hier bereitet das Werkzeug alles vor, und eine Person entscheidet oder gibt frei. Es entscheidet weder über einen Vorschuss noch über einen Anspruch.</p>
+  <div class="boite">
+    <div class="bascule-ligne">
+      <div class="bascule" role="group" aria-label="Die Arbeit ohne oder mit dem Werkzeug ansehen"><button id="sans" type="button" aria-pressed="true">Ohne das Werkzeug</button><button id="avec" type="button" aria-pressed="false">Mit dem Werkzeug</button></div>
+      <span class="gestes-txt" id="gestes-txt"></span>
+      <span class="note" id="gestes-note"></span>
+    </div>
+    <div class="bascule-ligne"><span class="note">Nachricht:</span><div class="bascule" role="group" aria-label="Eine Nachricht wählen" id="cas"></div></div>
+    <ul class="gestes" id="gestes"></ul>
+    <p class="vide" id="vide">Nichts ist vorbereitet: Die Nachricht wartet, bis jemand sie öffnet, liest, sucht, schreibt, durchliest, sendet und notiert. Klicken Sie auf «Mit dem Werkzeug», um dasselbe Anliegen bearbeitet zu sehen.</p>
+    <div class="boite-tete" id="boite-tete-fiche"><span>Gesendete Antwort</span><span id="fiche-tete"></span></div>
+    <div class="lecture" id="fiche"></div>
+    <div class="actions" id="actions2" hidden>
+      <button id="chef" type="button">Der Teamleiter bestätigt Dienstag, den 17.</button>
+      <span class="note">Der definitive Auszug geht in Anas Sprache zurück.</span>
+    </div>
+  </div>
+  <a class="suite" href="#e3">Nächster Schritt: was auf eine Person wartet</a>
+</section>
+
+<section id="e3">
+  <p class="moment">Schritt 3 · Im Lauf des Vormittags</p>
+  <h2>Was auf einen Entscheid oder eine Unterschrift wartet</h2>
+  <p class="reprise" id="reprise3"></p>
+  <p class="sous">Die Geschäftsleitung entscheidet, Claire gibt frei. Das Werkzeug entscheidet nicht über einen Vorschuss und verlangt keine medizinischen Angaben. Ein Unfall im Betrieb wird sofort vor Ort mit dem Vorgesetzten geregelt: Das Beispiel betrifft einen Freizeitunfall.</p>
+  <div class="boite">
+    <div class="boite-tete"><span>Anliegen, die auf jemanden warten</span><span id="decisions-tete" tabindex="-1"></span></div>
+    <div class="defile" tabindex="0" role="region" aria-label="Anliegen, die auf jemanden warten"><table>
+      <thead><tr><th scope="col">Anliegen</th><th scope="col">Wer entscheidet</th><th scope="col">Stand</th></tr></thead>
+      <tbody id="decisions"></tbody>
+    </table></div>
+    <div class="actions">
+      <button id="accord" type="button">Die Geschäftsleitung bewilligt die 500 Franken</button>
+      <button id="declaration" type="button">Claire gibt die Unfallmeldung frei und leitet sie weiter</button>
+      <button id="recommencer" type="button" class="sec">Von vorn beginnen</button>
+      <span class="note" id="etat3"></span>
+    </div>
+  </div>
+  <a class="suite" href="#e4">Nächster Schritt: die Wochenübersicht</a>
+</section>
+
+<section id="e4">
+  <p class="moment">Schritt 4 · Freitag</p>
+  <h2>Die Wochenübersicht, bereit für Claire</h2>
+  <p class="reprise" id="reprise4"></p>
+  <p class="sous">Jede Zeile übernimmt, was Sie weiter oben gemacht haben.</p>
+  <div class="boite">
+    <div class="boite-tete"><span>Wochenübersicht</span><span>3 Anliegen</span></div>
+    <div class="defile" tabindex="0" role="region" aria-label="Wochenübersicht"><table>
+      <thead><tr><th scope="col">Person</th><th scope="col">Anliegen</th><th scope="col">Wartet auf</th><th scope="col">Zu tun</th></tr></thead>
+      <tbody id="point"></tbody>
+    </table></div>
+    <div class="actions"><span class="note">Das Werkzeug weist hin, es entscheidet nicht.</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Was sich für den Betrieb ändert, und was bei der Geschäftsleitung bleibt</h2>
+  <div class="bilan">
+    <div>
+      <h3>Heute oft</h3>
+      <ul>
+        <li>Der Stundenauszug wird Ende Monat ausgedruckt?</li>
+        <li>Die Anliegen kommen auf Papier, per Nachricht oder über einen Kollegen, der übersetzt?</li>
+        <li>Nach einem Freizeitunfall sucht man das richtige Formular und die Person, an die das Arztzeugnis gehen soll?</li>
+      </ul>
+    </div>
+    <div class="apres">
+      <h3>Mit dem Werkzeug</h3>
+      <ul>
+        <li>Alle schreiben in ihrer Sprache und erhalten die Antwort in derselben Sprache.</li>
+        <li>Der Stundenauszug kommt auf Anfrage, die noch zu bestätigenden Tage sind markiert.</li>
+        <li>Der Vorschuss und der Freizeitunfall landen bei der richtigen Person, mit vorbereitetem Dossier.</li>
+        <li>Die Entscheide über Geld, Ansprüche und Versicherungen bleiben bei der Geschäftsleitung und bei Claire.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="fin">
+  <h2>Und bei Ihnen?</h2>
+  <p>Dieses Beispiel ist fiktiv: Regeln, Beträge und Fristen sind erfunden. Bei Ihnen würde das Werkzeug von Ihren Regeln ausgehen, vom Vertrag, der für Ihr Personal gilt, und von der Art, wie Sie die Stunden erfassen (Stempeluhr oder Erfassung durch die Teamleiter). Gesundheitsdaten verlangen besondere Vorsicht: Den Umgang damit legen wir mit Ihnen fest, bevor wir starten.</p>
+  <p>Ich stütze mich auf das Schweizer Datenschutzgesetz (DSG); je nach Fall kann auch die DSGVO gelten, das klären wir gemeinsam. Wo die Nachrichten bearbeitet und aufbewahrt werden, legen wir mit Ihnen fest, bevor wir starten.</p>
+  <p>Schreiben Sie mir oder rufen Sie mich an, ich zeige es Ihnen an Ihren eigenen Regeln:<br>
+  <span class="coord">jocelyn@collega.ch</span> · <span class="coord">+41 77 269 06 20</span></p>
+</div>
+
+</main>
+
+<footer><div class="w">Collega · Jocelyn Bussy · 1433 Suchy · Demonstration: keine echten Daten, kein echter Versand.</div></footer>
+
+<script>
+(function(){
+  var qs=[
+    {nom:"Ana", lang:"Portugiesisch", code:"pt", resume:"Stundenauszug für September",
+     msg:"« Bom dia. Preciso do relatório das minhas horas de setembro. »"},
+    {nom:"Miguel", lang:"Spanisch", code:"es", resume:"Lohnvorschuss",
+     msg:"« Hola. ¿Puedo pedir un adelanto de 500 francos? Necesito pagar el alquiler. »"},
+    {nom:"Luca", lang:"Italienisch", code:"it", resume:"Freizeitunfall, arbeitsunfähig",
+     msg:"« Buongiorno. Sabato sera, giocando a calcio, mi sono fatto male al ginocchio. Il medico mi ha dato un certificato fino a venerdì. Cosa devo fare? »"}
+  ];
+  var choisi, ouvert, chef, accord, decl, clique, premier=true;
+  var etapes=[["Nachrichten","1"],["Antworten","2"],["Entscheide","3"],["Wochenübersicht","4"]];
+  var $=function(id){return document.getElementById(id)};
+  var reduit=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function span(code,t){return '<span lang="'+code+'">'+t+'</span>'}
+  var loc=0;
+  function spy(){var l=0; ["e1","e2","e3","e4"].forEach(function(id,i){var r=$(id).getBoundingClientRect(); if(r.top<=window.innerHeight*0.4) l=i}); if(l!==loc){loc=l; lier()}}
+  window.addEventListener("scroll",spy,{passive:true});
+  function versSuite(){ if(!reduit) $("e2").scrollIntoView({behavior:"smooth",block:"start"}); }
+  var avec=false, tmr;
+  function ecrire(el,txt,anime){clearInterval(tmr); if(!anime||reduit){el.textContent=txt;return} var i=0; el.textContent=""; tmr=setInterval(function(){i+=3; el.textContent=txt.slice(0,i); if(i>=txt.length){clearInterval(tmr); el.textContent=txt}},18)}
+  function mode(G,vousLabel,vousFait,ids){
+    $("sans").setAttribute("aria-pressed",String(!avec)); $("avec").setAttribute("aria-pressed",String(avec));
+    $("gestes").innerHTML=G.map(function(g,i){
+      var vous=(i===4), pill= !avec ? '<span class="pill main">Von Hand</span>' : vous ? (vousFait?'<span class="pill ok">Von Ihnen erledigt</span>':'<span class="pill att">Ihre Aufgabe</span>') : '<span class="pill ok">Vom Werkzeug erledigt</span>';
+      return '<li>'+(vous?vousLabel:g)+pill+'</li>';
+    }).join("");
+    $("gestes-txt").textContent= avec ? "5 Arbeitsschritte erledigt das Werkzeug, 1 bleibt bei Ihnen" : "6 Arbeitsschritte, alle von Hand";
+    $("gestes-note").textContent= avec ? "Vom Werkzeug erledigt heisst nicht ohne Kontrolle: Die Freigabe ist Ihre Arbeit." : "";
+    ids.forEach(function(id){var e=$(id); if(e) e.hidden=!avec});
+    [["e3","Ohne das Werkzeug: Diese Entscheide stecken in E-Mails, auf Papier und im Gedächtnis der Einzelnen. Die Tabelle unten gibt es nicht, sie ist das, was das Werkzeug hinzufügt."],["e4","Ohne das Werkzeug: Diese Übersicht entsteht von Hand, indem man die Nachrichten einzeln nochmals liest. Die Tabelle unten ist das, was das Werkzeug vorbereitet."]].forEach(function(x){
+      var sec=$(x[0]), n=$("ns-"+x[0]);
+      if(!n){n=document.createElement("p"); n.id="ns-"+x[0]; n.className="note-sans"; var h=sec.querySelector("h2"); h.parentNode.insertBefore(n,h.nextSibling)}
+      n.textContent=x[1]; n.hidden=avec; sec.classList.toggle("sans-outil",!avec);
+    });
+    $("vide").hidden=avec;
+  }
+  function annonce(t){$("annonce").textContent=""; setTimeout(function(){$("annonce").textContent=t},50)}
+  function init(){
+    avec=false; choisi=0; clique=false; ouvert=[true,false,false]; chef=false; accord=false; decl=false;
+    rendre(true); rendreDecisions(); rendrePoint(); lier();
+    if(!premier){annonce("Demonstration zurückgesetzt."); var b=$("choix").querySelector(".choix"); if(b) b.focus()}
+    premier=false;
+  }
+  function progres(){
+    var p=0; if(clique||accord||decl||chef) p=1;
+    if(ouvert[0]&&ouvert[1]&&ouvert[2]) p=2;
+    if(accord&&decl) p=3; return p;
+  }
+  function lier(){
+    var fait=[clique||accord||decl||chef, ouvert[0]&&ouvert[1]&&ouvert[2], accord&&decl, false], cur=fait.indexOf(false);
+    $("fil").innerHTML=etapes.map(function(e,i){
+      var cls=(fait[i]?"fait ":"")+(i===loc?"ici ":"")+(i===cur?"suivant":"");
+      return '<li class="'+cls+'"><a href="#e'+(i+1)+'"'+(i===loc?' aria-current="step"':'')+'><span class="n" aria-hidden="true">'+(fait[i]?"✓":e[1])+'</span><span class="t">'+e[0]+(fait[i]?' (erledigt)':'')+'</span></a></li>';
+    }).join("");
+    var x=qs[choisi];
+    $("reprise2").innerHTML='<b>Aus Schritt 1</b>Die Nachricht von '+x.nom+', auf '+x.lang+', direkt oberhalb gelesen.';
+    var n=ouvert.filter(Boolean).length;
+    var sA=chef?'definitiv':'provisorisch, ein Tag noch zu bestätigen', sM=!ouvert[1]?'Nachricht noch nicht geöffnet':accord?'bewilligt':'noch zu entscheiden', sL=!ouvert[2]?'Nachricht noch nicht geöffnet':decl?'Unfallmeldung weitergeleitet (simuliert)':'Unfallmeldung noch freizugeben';
+    $("reprise3").innerHTML='<b>Aus Schritt 2</b>'+n+' von 3 Nachrichten geöffnet. Stundenauszug von Ana: '+sA+'. Vorschuss von Miguel: '+sM+'. Freizeitunfall von Luca: '+sL+'.';
+    $("reprise4").innerHTML='<b>Aus den Schritten 2 und 3</b>Stundenauszug von Ana: '+sA+'. Vorschuss von Miguel: '+sM+'. Freizeitunfall von Luca: '+sL+'.';
+  }
+  function rendre(anime){
+    var z=$("choix"); z.innerHTML="";
+    qs.forEach(function(x,k){
+      var b=document.createElement("button"); b.type="button"; b.className="choix";
+      b.setAttribute("aria-pressed", k===choisi?"true":"false");
+      b.innerHTML=x.nom+" · "+x.lang+"<small>"+x.resume+"</small>";
+      b.onclick=function(){var p1=!clique; choisi=k; ouvert[k]=true; clique=true; if(p1) versSuite(); rendre(true); rendreDecisions(); rendrePoint(); lier(); annonce('Nachricht von '+qs[k].nom+' angezeigt, die Antwort steht darunter.'); var bs=$("choix").querySelectorAll(".choix"); if(bs[k]) bs[k].focus()};
+      z.appendChild(b);
+    });
+    var x=qs[choisi];
+    $("cas").innerHTML=qs.map(function(q,k){return '<button type="button" data-k="'+k+'" aria-pressed="'+(k===choisi)+'">'+q.nom+'</button>'}).join("");
+    $("cas").querySelectorAll("button").forEach(function(bt){bt.onclick=function(){var k=+bt.getAttribute("data-k"); var p1=!clique; choisi=k; ouvert[k]=true; clique=true; rendre(true); rendreDecisions(); rendrePoint(); lier(); annonce("Nachricht von "+qs[k].nom+" angezeigt."); var nb=$("cas").querySelector('[data-k="'+k+'"]'); if(nb) nb.focus()}});
+    $("dit").innerHTML=span(x.code,x.msg);
+    $("fiche-tete").textContent=x.nom+" · "+x.lang;
+    var rep, fr, st, extra="";
+    if(choisi===0){
+      rep= chef
+        ? "« Ana, aqui está o relatório final de setembro: 171 h. Segue em PDF. »"
+        : "« Bom dia, Ana. Aqui estão as suas horas de setembro: 163 h. Falta confirmar um dia (terça 17, sem saída registada). O seu chefe de equipa vai confirmar. »";
+      fr= chef
+        ? "Definitiver Auszug an Ana gesendet: 171 Std., als PDF."
+        : "Provisorischer Auszug gesendet: 163 Std. Ein Tag ist markiert: Dienstag, 17., kein Ausstempeln erfasst. Er bleibt ausgeklammert, bis der Teamleiter ihn bestätigt: 171 Std., falls ein Arbeitstag von 8 Std. bestätigt wird.";
+      st= chef ? '<span class="pill ok">Definitiver Auszug, nichts zu entscheiden</span>' : '<span class="pill att">Provisorischer Auszug: ein Tag noch zu bestätigen</span>';
+      var sem=[["Woche 1",42],["Woche 2",45],["Woche 3",chef?44:36],["Woche 4",40]], tot=0;
+      extra='<div class="defile" tabindex="0" role="region" aria-label="Stundenauszug für September"><table><thead><tr><th scope="col">Woche</th><th scope="col" class="d">Stunden</th><th scope="col">Bemerkung</th></tr></thead><tbody>'+
+        sem.map(function(s,i){tot+=s[1]; return '<tr><td>'+s[0]+'</td><td class="d">'+s[1]+'</td><td>'+(i===2?(chef?'<span class="pill ok">Dienstag, 17., bestätigt</span>':'<span class="pill att">Dienstag, 17.: Ausstempeln nicht erfasst</span>'):'')+'</td></tr>'}).join("")+
+        '</tbody><tfoot><tr><td>Total</td><td class="d">'+tot+'</td><td></td></tr></tfoot></table></div>'+
+        '<p class="note">Je nachdem, ob Ihre Teamleiter die Stunden erfassen oder ob Sie ein Stempelsystem verwenden.</p>';
+    } else if(choisi===1){
+      rep= accord
+        ? "« Hola, Miguel. La dirección ha aceptado el adelanto de 500 francos. Te confirmaremos cómo se descontará. »"
+        : "« Hola, Miguel. He pasado tu solicitud a la dirección. Según el reglamento de la empresa, un adelanto es posible tras 10 días trabajados, hasta el 30 % de lo ya ganado. La dirección te responderá. »";
+      fr= accord
+        ? "Die Geschäftsleitung hat 500 Franken bewilligt. Antwort an Miguel auf Spanisch gesendet. Der Lohnabzug und seine Modalitäten sind noch mit Miguel und der Buchhaltung festzulegen."
+        : "Miguel bittet um 500 Franken Vorschuss (angegebener Grund: die Miete). Fiktive Regel: möglich nach 10 Arbeitstagen, bis zu 30 % des bereits verdienten Bruttolohns. Miguel: 12 Tage, 2'400 Franken brutto, Obergrenze 720 Franken. Der Betrag liegt unter dieser Obergrenze. Die Geschäftsleitung entscheidet.";
+      st= accord ? '<span class="pill ok">Von der Geschäftsleitung bewilligt</span>' : '<span class="pill att">An die Geschäftsleitung weitergeleitet</span>';
+    } else {
+      rep= "« Buongiorno Luca, mi dispiace. Avvisa oggi il tuo capo squadra per telefono e manda il certificato a Claire. Claire prepara la dichiarazione all'assicurazione. Qui non servono i dettagli medici. »";
+      fr= decl
+        ? "Unfallmeldung (Freizeitunfall) von Claire freigegeben und an die Unfallversicherung weitergeleitet (simuliert). Von Luca wurden keine medizinischen Angaben verlangt."
+        : "Luca meldet einen Freizeitunfall (Sport, Samstagabend) und laut seiner Nachricht eine Arbeitsunfähigkeit bis Freitag. Gegebene Antwort: den Teamleiter telefonisch informieren, das Arztzeugnis an Claire senden. Unfallmeldung mit den bekannten Angaben vorbereitet (Name, Funktion, Datum, Hergang in einer Zeile). Die Art der Verletzung wird nicht übernommen, und es werden keine medizinischen Angaben verlangt. Claire gibt frei und leitet an die Versicherung weiter.";
+      st= decl ? '<span class="pill ok">Unfallmeldung weitergeleitet (simuliert)</span>' : '<span class="pill att">Unfallmeldung bereit, von Claire freizugeben</span>';
+    }
+    var r=$("fiche");
+    r.innerHTML=
+      '<div class="ligne"><span>Gesendete Antwort</span><span>'+span(x.code,rep)+'</span></div>'+
+      '<div class="ligne"><span>Für Claire und die Geschäftsleitung, auf Deutsch</span><span>'+fr+'</span></div>'+
+      '<div class="ligne"><span>Status</span><span>'+st+'</span></div>'+
+      (extra?'<div class="ligne"><span>Beilage</span><div>'+extra+'</div></div>':'');
+    r.querySelectorAll(".ligne").forEach(function(l,k){ if(reduit||!anime){l.classList.add("vu")} else setTimeout(function(){l.classList.add("vu")},150+k*300) });
+    $("actions2").hidden=!(choisi===0&&!chef)||!avec;
+    var VL=["Den fehlenden Tag bestätigen (Teamleiter)","Entscheiden (Geschäftsleitung)","Die Unfallmeldung freigeben (Claire)"], VF=[chef,accord,decl];
+    mode(["Die Nachricht lesen, in ihrer Sprache","Die Information finden (Auszug, Regel, Ablauf)","Die Antwort in ihrer Sprache schreiben","An die richtige Person weiterleiten","","In der Pendenzenliste notieren"],VL[choisi],VF[choisi],["fiche","boite-tete-fiche"]);
+  }
+  function rendreDecisions(){
+    var rows=[
+      ["Stundenauszug von Ana","Der Teamleiter", ouvert[0] ? (chef?'<span class="pill ok">Definitiv, nichts zu entscheiden</span>':'<span class="pill att">Provisorisch: Der Teamleiter bestätigt einen Tag</span>') : '<span class="pill att">Nachricht noch nicht geöffnet</span>'],
+      ["Vorschuss von Miguel, 500 Franken","Die Geschäftsleitung", !ouvert[1] ? '<span class="pill att">Nachricht noch nicht geöffnet</span>' : accord ? '<span class="pill ok">Bewilligt</span>' : '<span class="pill att">Zu entscheiden</span>'],
+      ["Freizeitunfall von Luca","Claire", !ouvert[2] ? '<span class="pill att">Nachricht noch nicht geöffnet</span>' : decl ? '<span class="pill ok">Unfallmeldung weitergeleitet (simuliert)</span>' : '<span class="pill att">Unfallmeldung freizugeben</span>']
+    ];
+    $("decisions").innerHTML=rows.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>'}).join("");
+    $("decisions-tete").textContent=((chef?0:1)+(accord?0:1)+(decl?0:1))+" offen";
+    $("accord").disabled=!ouvert[1]||accord; $("declaration").disabled=!ouvert[2]||decl;
+    $("etat3").textContent= (!ouvert[1]||!ouvert[2]) ? "Öffnen Sie zuerst die Nachrichten von Miguel und Luca (Schritt 1 oder 2). In der Demo wird nichts wirklich versendet." : "In der Demo wird nichts wirklich versendet.";
+  }
+  function rendrePoint(){
+    var no=function(k){return ouvert[k]?null:["Nachricht noch nicht geöffnet",'<span class="pill att">Nachricht öffnen</span>']};
+    var l=[
+      ["Ana","Stundenauszug", chef?"Nichts":"Der Teamleiter: Dienstag, 17.", chef?'<span class="pill ok">Erledigt</span>':'<span class="pill att">Tag bestätigen</span>'],
+      ["Miguel","Vorschuss von 500 Franken"].concat(no(1)||(accord?["Die Buchhaltung",'<span class="pill ok">Lohnabzug mit Miguel festlegen</span>']:["Die Geschäftsleitung",'<span class="pill att">Entscheid</span>'])),
+      ["Luca","Freizeitunfall, arbeitsunfähig bis Freitag"].concat(no(2)||(decl?["Die Versicherung",'<span class="pill ok">Antwort der Versicherung verfolgen</span>']:["Claire",'<span class="pill att">Unfallmeldung freigeben</span>']))
+    ];
+    $("point").innerHTML=l.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td></tr>'}).join("");
+  }
+  function tout(foc){rendre(false); rendreDecisions(); rendrePoint(); lier(); if(foc){var f=$(foc); if(f){f.setAttribute("tabindex","-1"); f.focus()}}}
+  $("chef").onclick=function(){chef=true; tout("fiche"); annonce("Dienstag, 17., bestätigt. Definitiver Auszug an Ana in ihrer Sprache gesendet.")};
+  $("accord").onclick=function(){accord=true; ouvert[1]=true; tout("decisions-tete"); annonce("Vorschuss von der Geschäftsleitung bewilligt. Antwort an Miguel in seiner Sprache gesendet.")};
+  $("declaration").onclick=function(){decl=true; tout("decisions-tete"); annonce("Unfallmeldung freigegeben und weitergeleitet, simuliert.")};
+  $("sans").onclick=function(){avec=false; rendre(false); annonce("Ohne das Werkzeug: 6 Arbeitsschritte, alle von Hand.")};
+  $("avec").onclick=function(){avec=true; rendre(true); annonce("Mit dem Werkzeug: 5 Arbeitsschritte erledigt das Werkzeug, 1 bleibt bei Ihnen.")};
+  $("recommencer").onclick=init;
+  init();
+})();
+</script>
+
+</body>
+</html>
