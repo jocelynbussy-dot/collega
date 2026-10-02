@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg">
+<title>Un lundi dans un bureau d'architectes</title>
+<style>
+/* Mise en page : une colonne étroite qui suit un dossier en quatre étapes reliées (demande, réponse, offres, point), avec une bande de progression. Couleurs et polices reprises du site collega.ch. */
+:root{
+  --fond:#ffffff; --creme:#F7F4EE; --encre:#16252a; --doux:#56646a;
+  --petrole:#0F3B47; --cuivre:#C9772F; --cuivre-texte:#9A5418; --trait:#e3ddd2;
+  --ok:#2f7a4f; --ok-fond:#e6f2ea; --attente:#9a5a12; --attente-fond:#fbeedd;
+  --titre:Georgia,"Times New Roman",serif;
+  --texte:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fond);color:var(--encre);font:17px/1.6 var(--texte)}
+.w{max-width:860px;margin:0 auto;padding-inline:20px}
+header{border-bottom:1px solid var(--trait);padding-block:16px}
+header .w{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.marque{display:block;line-height:0}
+.marque img{height:36px;width:auto;display:block}
+.fictif{font-size:13px;color:var(--doux);background:var(--creme);border:1px solid var(--trait);padding:4px 10px;border-radius:20px}
+.intro{background:var(--creme);padding-block:44px 40px}
+.tag{color:var(--cuivre-texte);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:13px;margin:0 0 10px}
+h1{font:700 clamp(28px,4.4vw,42px)/1.15 var(--titre);color:var(--petrole);margin:0 0 14px;text-wrap:balance;max-width:20em}
+.intro p{margin:0;color:var(--doux);max-width:36em;font-size:18px}
+section{padding-block:40px;border-bottom:1px solid var(--trait)}
+.moment{margin:0 0 6px;font:700 14px/1 var(--texte);color:var(--cuivre-texte);letter-spacing:.06em;text-transform:uppercase}
+h2{font:700 25px/1.25 var(--titre);color:var(--petrole);margin:0 0 8px;text-wrap:balance}
+.sous{color:var(--doux);margin:0 0 20px;max-width:38em}
+.boite{border:1px solid var(--trait);border-radius:12px;overflow:hidden;background:var(--fond)}
+.boite-tete{background:var(--creme);padding:10px 16px;font-size:14px;color:var(--doux);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--trait)}
+.duo{display:grid;grid-template-columns:1fr 1.3fr;gap:0}
+.duo>div{min-width:0;padding:16px}
+.duo>div+div{border-left:1px solid var(--trait);background:#fcfbf8}
+.col-titre{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--doux);font-weight:600;margin:0 0 10px}
+.choix{display:block;width:100%;text-align:left;background:var(--fond);border:1px solid var(--trait);border-radius:10px;padding:12px 14px;margin:0 0 10px;font:600 16px/1.4 var(--texte);color:var(--encre);cursor:pointer}
+.choix:hover{border-color:var(--cuivre)}
+.choix:focus-visible{outline:3px solid var(--cuivre);outline-offset:2px}
+.choix small{display:block;font:400 13.5px/1.4 var(--texte);color:var(--doux);margin-top:2px}
+.choix[aria-pressed="true"]{border-color:var(--petrole);box-shadow:inset 4px 0 0 var(--petrole)}
+.dit{margin:0;font:italic 17px/1.55 var(--titre);color:var(--encre)}
+.lecture{display:grid;gap:10px;padding:18px 20px}
+.ligne{display:grid;grid-template-columns:150px 1fr;gap:10px;font-size:15.5px;opacity:.7;transition:opacity .35s}
+.ligne.vu{opacity:1}
+.ligne>span:first-child{color:var(--doux);font-size:14px}
+.ligne ul{margin:0;padding-left:18px}
+.brouillon{margin:0;padding:16px 20px;border-top:1px solid var(--trait);background:#fcfbf8;font:italic 16.5px/1.6 var(--titre);white-space:pre-line}
+.pill{display:inline-block;font-size:13px;font-weight:600;padding:3px 10px;border-radius:20px;font-variant-numeric:tabular-nums}
+.pill.att{background:var(--attente-fond);color:var(--attente)}
+.pill.ok{background:var(--ok-fond);color:var(--ok)}
+.defile{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15.5px;min-width:520px;font-variant-numeric:tabular-nums}
+th{text-align:left;font-weight:600;color:var(--doux);font-size:13px;letter-spacing:.05em;text-transform:uppercase;padding:10px 16px;border-bottom:1px solid var(--trait)}
+td{padding:10px 16px;border-bottom:1px solid var(--trait);vertical-align:top}
+th.d,td.d{text-align:right;white-space:nowrap}
+tfoot td{border-bottom:0;padding-block:6px;color:var(--doux)}
+tfoot tr:last-child td{color:var(--encre);font-weight:700;font-size:17px;padding-bottom:14px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;padding:14px 20px;border-top:1px solid var(--trait);background:var(--creme);align-items:center}
+.actions button{font:600 15.5px/1 var(--texte);padding:12px 18px;border-radius:9px;border:2px solid var(--petrole);cursor:pointer;background:var(--petrole);color:#fff}
+.actions button.sec{background:transparent;color:var(--petrole)}
+.actions button:disabled{opacity:.45;cursor:default}
+.actions button:focus-visible{outline:3px solid var(--cuivre);outline-offset:2px}
+.actions[hidden]{display:none}
+.note{font-size:14px;color:var(--doux)}
+.bilan{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.bilan div{padding-top:12px;border-top:3px solid var(--trait)}
+.bilan div.apres{border-top-color:var(--petrole)}
+.bilan h3{margin:0 0 6px;font:700 19px/1.3 var(--titre);color:var(--petrole)}
+.bilan ul{margin:0;padding-left:18px;color:var(--doux)}
+.fin{background:var(--petrole);color:#fff;border-radius:16px;padding:30px 28px;margin-block:40px}
+.fin h2{color:#fff}
+.fin p{margin:0 0 14px;opacity:.92;max-width:36em}
+.fin .coord{font-weight:600;user-select:all}
+footer{padding-block:0 40px;font-size:13.5px;color:var(--doux)}
+
+.fil{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--trait)}
+.fil ol{display:flex;gap:6px;list-style:none;margin:0 auto;padding:8px 20px;max-width:860px;overflow-x:auto}
+.fil a{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:20px;font:600 14px/1.2 var(--texte);color:var(--doux);text-decoration:none;white-space:nowrap;border:1px solid transparent}
+.fil a:focus-visible{outline:3px solid var(--cuivre);outline-offset:2px}
+.fil .n{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;border:2px solid var(--trait);font-size:12px;color:var(--doux)}
+.fil li.fait a{color:var(--ok)}
+.fil li.fait .n{background:var(--ok);border-color:var(--ok);color:#fff}
+.fil li.ici a{color:var(--petrole);background:var(--creme);border-color:var(--trait)}
+.fil li.ici .n{border-color:var(--petrole)}
+.fil li.fait.ici a{color:var(--ok)}
+.fil li.suivant a{border:1px dashed var(--cuivre)}
+.fil li.suivant .n{border-color:var(--cuivre);color:var(--cuivre-texte)}
+.reprise{margin:0 0 16px;padding:10px 14px;border-left:4px solid var(--cuivre);background:var(--creme);border-radius:0 8px 8px 0;font-size:15px;color:var(--encre)}
+.reprise b{color:var(--cuivre-texte);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:2px}
+.suite{display:inline-block;margin-top:14px;font-weight:600;color:var(--petrole)}
+.suite:focus-visible{outline:3px solid var(--cuivre);outline-offset:2px}
+[hidden]{display:none!important}
+.bascule-ligne{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--trait)}
+.bascule{display:inline-flex;border:2px solid var(--petrole);border-radius:10px;overflow:hidden}
+.bascule button{font:600 15px/1 var(--texte);padding:11px 16px;border:0;background:transparent;color:var(--petrole);cursor:pointer}
+.bascule button[aria-pressed="true"]{background:var(--petrole);color:#fff}
+.bascule button:focus-visible{outline:3px solid var(--cuivre);outline-offset:-3px}
+.gestes-txt{font-weight:700;color:var(--petrole)}
+.gestes{list-style:none;margin:0;padding:12px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-bottom:1px solid var(--trait);background:#fcfbf8}
+.gestes li{display:flex;flex-direction:column;gap:6px;padding:9px 11px;border:1px solid var(--trait);border-radius:8px;background:#fff;font-size:14.5px;line-height:1.35}
+.gestes .pill{align-self:flex-start;font-size:12px}
+.pill.main{background:#eceff0;color:#3d4a50}
+.vide{margin:0;padding:22px 20px;color:var(--doux);font-style:italic}
+@media (max-width:700px){.gestes{grid-template-columns:1fr 1fr}}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+section{scroll-margin-top:56px}
+@media (max-width:700px){.fil li:not(.ici) .t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
+@media (max-width:700px){
+  .duo{grid-template-columns:1fr}
+  .duo>div+div{border-left:0;border-top:1px solid var(--trait)}
+  .bilan{grid-template-columns:1fr}
+  .ligne{grid-template-columns:1fr;gap:0}
+}
+@media (prefers-reduced-motion:reduce){.ligne{transition:none}}
+</style>
+</head>
+<body>
+
+<header><div class="w">
+  <a class="marque" href="https://collega.ch/"><img src="/collega-logo.svg" alt="Collega"></a>
+  <span class="fictif">Exemple fictif : noms, dates et montants inventés</span>
+</div></header>
+
+<nav class="fil" aria-label="Étapes de la démonstration"><ol id="fil"></ol></nav>
+<div class="sr-only" id="annonce" aria-live="polite"></div>
+
+<div class="intro"><div class="w">
+  <p class="tag">Exemple · Bureau d'architectes</p>
+  <h1>Les demandes sont triées, les offres comparées, les dossiers suivis. L'architecte décide et signe.</h1>
+  <p>Dans un bureau très occupé, ce qui ne demande pas d'architecte peut quand même prendre du temps : répondre à une première demande, relancer, comparer des offres d'entreprises. Voici une journée dans un bureau fictif de huit personnes : une demande reçue, un autre dossier avec trois offres d'entreprises, puis le point qui réunit le tout. La barre en haut montre où vous en êtes. Cliquez, rien à installer.</p>
+</div></div>
+
+<main class="w">
+
+<section id="e1">
+  <p class="moment">Étape 1 · Lundi, 8 h</p>
+  <h2>Trois demandes sont arrivées pendant le week-end</h2>
+  <p class="sous">Mathieu est architecte, Nadia tient le secrétariat. Choisissez une des trois demandes.</p>
+  <div class="boite">
+    <div class="duo">
+      <div>
+        <p class="col-titre">Demandes reçues</p>
+        <div id="choix"></div>
+      </div>
+      <div>
+        <p class="col-titre">Le message reçu</p>
+        <p class="dit" id="dit"></p>
+      </div>
+    </div>
+  </div>
+  <a class="suite" href="#e2">Étape suivante : la réponse préparée</a>
+</section>
+
+<section id="e2">
+  <p class="moment">Étape 2 · Une minute plus tard</p>
+  <h2>La réponse est préparée, Nadia la relit</h2>
+  <p class="reprise" id="reprise2"></p>
+  <p class="sous">L'outil sépare ce que le message dit de ce qui manque. Aujourd'hui, c'est du travail à la main : ouvrir, lire, chercher, rédiger, relire, noter. Ici, l'outil prépare tout, vous relisez et validez. Il signale ce qui manque et en fait une question dans le brouillon.</p>
+  <div class="boite">
+    <div class="bascule-ligne">
+      <div class="bascule" role="group" aria-label="Voir le travail sans ou avec l'outil"><button id="sans" type="button" aria-pressed="true">Sans l'outil</button><button id="avec" type="button" aria-pressed="false">Avec l'outil</button></div>
+      <span class="gestes-txt" id="gestes-txt"></span>
+      <span class="note" id="gestes-note"></span>
+    </div>
+    <ul class="gestes" id="gestes"></ul>
+    <p class="vide" id="vide">Rien n'est préparé : le message attend que quelqu'un l'ouvre, le lise, cherche, rédige, relise, envoie et note. Cliquez sur « Avec l'outil » pour voir la même demande traitée.</p>
+    <div class="boite-tete" id="boite-tete-fiche"><span>Fiche de la demande</span><span id="fiche-tete"></span></div>
+    <div class="lecture" id="fiche"></div>
+    <p class="brouillon" id="brouillon"></p>
+    <div class="actions" id="actions-a">
+      <button id="valider" type="button">Valider l'envoi</button>
+      <button id="repondre" type="button" class="sec" hidden></button>
+      <span class="note" id="etat"></span>
+    </div>
+  </div>
+  <a class="suite" href="#e3">Étape suivante : un autre dossier, des offres à comparer</a>
+</section>
+
+<section id="e3">
+  <p class="moment">Étape 3 · Mercredi, un autre dossier : le chantier Morel</p>
+  <h2>Trois offres de maçonnerie, côte à côte</h2>
+  <p class="reprise" id="reprise3"></p>
+  <p class="sous">Trois entreprises ont remis leur offre pour ouvrir un mur entre cuisine et séjour. L'outil les met sur les mêmes lignes et signale ce qui ne se compare pas encore. Il ne dit pas laquelle choisir.</p>
+  <div class="boite">
+    <div class="boite-tete"><span>Comparaison des offres, montants en CHF</span><span>Chantier Morel, maison de 1974 (fictif)</span></div>
+    <div class="defile"><table>
+      <thead><tr><th>Poste</th><th class="d">Entreprise A</th><th class="d">Entreprise B</th><th class="d">Entreprise C</th></tr></thead>
+      <tbody id="offres"></tbody>
+      <tfoot id="offres-pied"></tfoot>
+    </table></div>
+    <div class="lecture" id="alertes" tabindex="-1"></div>
+    <div class="actions">
+      <button id="demander" type="button">Valider la question à B</button>
+      <button id="repB" type="button" class="sec" hidden>B répond : en sus, 1'500</button>
+      <button id="recommencer" type="button" class="sec">Recommencer</button>
+      <span class="note" id="etat-offres"></span>
+    </div>
+  </div>
+  <a class="suite" href="#e4">Étape suivante : le point des dossiers</a>
+</section>
+
+<section id="e4">
+  <p class="moment">Étape 4 · Le lundi suivant</p>
+  <h2>Le point des dossiers, prêt le lundi matin</h2>
+  <p class="reprise" id="reprise4"></p>
+  <p class="sous">Chaque ligne se met à jour avec ce que vous venez de faire plus haut.</p>
+  <div class="boite">
+    <div class="boite-tete"><span>Point du lundi</span><span>4 dossiers ouverts</span></div>
+    <div class="defile"><table>
+      <thead><tr><th>Dossier</th><th>Étape</th><th>En attente de</th><th>À faire</th></tr></thead>
+      <tbody id="point"></tbody>
+    </table></div>
+    <div class="actions"><span class="note">Chaque ligne vient du suivi du bureau. L'outil signale, il ne décide pas.</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Ce qui change pour le bureau, et ce qui reste à l'architecte</h2>
+  <div class="bilan">
+    <div>
+      <h3>Souvent, aujourd'hui</h3>
+      <ul>
+        <li>Une première demande attend plusieurs jours une réponse ?</li>
+        <li>Comparer trois offres, c'est refaire le tableau à la main ?</li>
+        <li>Savoir qui attend quoi demande de rouvrir chaque dossier ?</li>
+      </ul>
+    </div>
+    <div class="apres">
+      <h3>Avec l'outil</h3>
+      <ul>
+        <li>La réponse est préparée, avec les questions qui manquent.</li>
+        <li>Les offres sont mises sur les mêmes lignes, les écarts sont signalés.</li>
+        <li>Le point des dossiers est prêt chaque lundi.</li>
+        <li>Les plans, la conformité, le choix de l'entreprise, la relation avec le client et la signature restent à l'architecte.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="fin">
+  <h2>Et chez vous ?</h2>
+  <p>Cet exemple est fictif. Chez vous, l'outil partirait de vos modèles de lettres, de vos dossiers et de vos entreprises habituelles. Il ne dessine pas de plans et ne vérifie pas leur conformité. Je m'appuie sur la loi suisse sur la protection des données (LPD) ; selon le cas, le RGPD peut aussi s'appliquer, cela se vérifie avec vous. Où les messages sont traités et conservés se décide avant tout démarrage.</p>
+  <p>Écrivez-moi ou appelez-moi, je vous le montre sur un de vos dossiers réels :<br>
+  <span class="coord">jocelyn@collega.ch</span> · <span class="coord">+41 77 269 06 20</span></p>
+</div>
+
+</main>
+
+<footer><div class="w">Collega · Jocelyn Bussy · 1433 Suchy · Démonstration : aucune donnée réelle, aucun envoi réel.</div></footer>
+
+<script>
+(function(){
+  var demandes=[
+    {client:"Famille Rey", resume:"Premier projet de rénovation",
+     mail:"« Bonjour, nous venons d'acheter une maison de 1974. Nous aimerions ouvrir la cuisine sur le séjour et refaire l'isolation. Pouvez-vous nous proposer un premier projet ? Notre budget est d'environ 250 000 francs. Cordialement, M. et Mme Rey »",
+     sait:["Maison de 1974","Cuisine ouverte sur le séjour, isolation à refaire","Budget d'environ 250 000 francs"],
+     etq:["Question à poser","Question posée"], manque:"Surface, adresse de la parcelle, plans existants, délai souhaité",
+     question:"Pour préparer un premier projet, pourriez-vous nous indiquer l'adresse de la maison, sa surface approximative et le délai que vous visez ? Si vous avez les plans existants, merci de nous les envoyer. Nous pourrions ensuite fixer une visite sur place.",
+     repBouton:"Les clients répondent : 140 m², adresse indiquée",
+     reponse:"Surface : 140 m² (réponse des clients). Adresse reçue : à contrôler par Nadia au registre foncier.",
+     suite:"Prêt pour Mathieu : visite sur place à fixer"},
+    {client:"Commune", resume:"Offre d'honoraires, local jeunesse",
+     mail:"« Bonjour, la commune souhaite transformer l'ancienne salle de classe en local pour la jeunesse. Pouvons-nous recevoir une offre d'honoraires avant le 30 octobre ? Un plan est joint. Salutations, le greffe municipal »",
+     sait:["Transformer l'ancienne salle de classe en local jeunesse","Offre d'honoraires attendue avant le 30 octobre","Un plan en pièce jointe"],
+     etq:["Question à poser","Question posée"], manque:"Montant estimé des travaux. Mathieu devra aussi voir si l'offre suit une procédure de mise en concurrence",
+     question:"Pour établir notre offre d'honoraires, pourriez-vous nous indiquer le montant estimé des travaux et nous dire si la commune attend une procédure particulière pour la remise des offres ?",
+     repBouton:"La commune répond : environ 400 000 francs",
+     reponse:"Montant des travaux estimé : 400 000 francs (réponse de la commune). L'offre d'honoraires reste à établir par Mathieu, et la procédure de remise des offres reste à vérifier.",
+     suite:"Prêt pour Mathieu : offre d'honoraires à établir avant le 30 octobre"},
+    {client:"Famille Dubois", resume:"« Où en est notre permis ? »",
+     mail:"« Bonjour, cela fait six semaines que nous avons déposé le dossier. Où en est notre permis ? Cordialement, famille Dubois »",
+     sait:["Dossier déposé il y a six semaines","Mise à l'enquête terminée le 5 octobre, selon le suivi du bureau"],
+     etq:["Vérification à faire","Vérification lancée"], manque:"Aucune nouvelle de la commune dans le suivi : Nadia doit vérifier avec elle",
+     question:"Nous vérifions auprès de la commune où en est votre dossier et nous vous répondons dès que nous avons une information précise.",
+     repBouton:"Nadia répond : la commune n'a rien envoyé",
+     reponse:"Nadia a confirmé : aucune décision reçue de la commune à ce jour.",
+     suite:"Prêt : relance de la commune par Nadia, réponse précise à la famille ensuite"}
+  ];
+  var choisi, envoye, repondu, offreB, clique, premier=true;
+  var etapes=[["Demande reçue","1"],["Réponse préparée","2"],["Offres comparées","3"],["Point des dossiers","4"]];
+  var $=function(id){return document.getElementById(id)};
+  var reduit=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var loc=0;
+  function spy(){var l=0; ["e1","e2","e3","e4"].forEach(function(id,i){var r=$(id).getBoundingClientRect(); if(r.top<=window.innerHeight*0.4) l=i}); if(l!==loc){loc=l; lier()}}
+  window.addEventListener("scroll",spy,{passive:true});
+  function versSuite(){ if(!reduit) $("e2").scrollIntoView({behavior:"smooth",block:"start"}); }
+  var avec=false, tmr;
+  function ecrire(el,txt,anime){clearInterval(tmr); if(!anime||reduit){el.textContent=txt;return} var i=0; el.textContent=""; tmr=setInterval(function(){i+=3; el.textContent=txt.slice(0,i); if(i>=txt.length){clearInterval(tmr); el.textContent=txt}},18)}
+  function mode(G,vousLabel,vousFait,ids){
+    $("sans").setAttribute("aria-pressed",String(!avec)); $("avec").setAttribute("aria-pressed",String(avec));
+    $("gestes").innerHTML=G.map(function(g,i){
+      var vous=(i===4), pill= !avec ? '<span class="pill main">À la main</span>' : vous ? (vousFait?'<span class="pill ok">Fait par vous</span>':'<span class="pill att">À vous</span>') : '<span class="pill ok">Fait par l\'outil</span>';
+      return '<li>'+(vous?vousLabel:g)+pill+'</li>';
+    }).join("");
+    $("gestes-txt").textContent= avec ? "5 gestes faits par l'outil, 1 pour vous" : "6 gestes, tous à la main";
+    $("gestes-note").textContent= avec ? "Fait par l'outil ne veut pas dire sans contrôle : la validation est votre travail." : "";
+    ids.forEach(function(id){var e=$(id); if(e) e.hidden=!avec});
+    $("vide").hidden=avec;
+  }
+  function annonce(t){$("annonce").textContent=""; setTimeout(function(){$("annonce").textContent=t},50)}
+  function lier(){
+    var fait=[clique||envoye.some(Boolean), envoye.some(Boolean), offreB===2, false], cur=fait.indexOf(false);
+    $("fil").innerHTML=etapes.map(function(e,i){
+      var cls=(fait[i]?"fait ":"")+(i===loc?"ici ":"")+(i===cur?"suivant":"");
+      return '<li class="'+cls+'"><a href="#e'+(i+1)+'"'+(i===loc?' aria-current="step"':'')+'><span class="n" aria-hidden="true">'+(fait[i]?"✓":e[1])+'</span><span class="t">'+e[0]+(fait[i]?' (fait)':'')+'</span></a></li>';
+    }).join("");
+    var x=demandes[choisi];
+    $("reprise2").innerHTML='<b>Venu de l\'étape 1</b>Le message de '+x.client+', affiché à l\'étape 1.';
+    $("reprise3").innerHTML='<b>Un autre dossier du bureau</b>Le chantier Morel (maison de 1974, rénovation en cours) en est aux offres d\'entreprises. Il n\'a pas de lien avec les demandes de l\'étape 1, mais il figure dans le même point des dossiers, à l\'étape 4.';
+    var nv=envoye.filter(Boolean).length, nc=repondu.filter(Boolean).length;
+    $("reprise4").innerHTML='<b>Venu des étapes 2 et 3</b>Réponses validées : '+nv+' sur 3. Compléments obtenus : '+nc+' sur 3. Offres du chantier Morel : '+(offreB===2?"B complète":offreB===1?"question posée à B":"B incomplète")+'.';
+  }
+  function chf(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,"'")}
+
+  function init(){
+    avec=false; choisi=0; clique=false; envoye=demandes.map(function(){return false}); repondu=demandes.map(function(){return false}); offreB=0;
+    rendre(true); rendreOffres(); rendrePoint(); lier(); if(!premier){annonce("Démonstration remise à zéro."); var b0=$("choix").querySelector(".choix"); if(b0) b0.focus()} premier=false;
+  }
+  function rendre(anime){
+    var z=$("choix"); z.innerHTML="";
+    demandes.forEach(function(x,k){
+      var b=document.createElement("button"); b.type="button"; b.className="choix";
+      b.setAttribute("aria-pressed", k===choisi?"true":"false");
+      b.innerHTML=x.client+"<small>"+x.resume+(envoye[k]?" · réponse validée ✓":"")+"</small>";
+      b.onclick=function(){var p1=!clique; choisi=k; clique=true; rendre(true); lier(); if(p1) versSuite(); annonce('Message de '+demandes[k].client+' affiché.'); var bs=$("choix").querySelectorAll(".choix"); if(bs[k]) bs[k].focus()};
+      z.appendChild(b);
+    });
+    var x=demandes[choisi], ok=repondu[choisi];
+    $("dit").textContent=x.mail;
+    $("fiche-tete").textContent=x.client;
+    var manqueHtml= ok ? '<span class="pill ok">reçu</span> '+x.reponse : '<span class="pill att">'+x.etq[envoye[choisi]?1:0]+'</span> '+x.manque;
+    var r=$("fiche");
+    r.innerHTML=
+      '<div class="ligne"><span>De</span><span>'+x.client+'</span></div>'+
+      '<div class="ligne"><span>Ce que le message dit</span><span><ul>'+x.sait.map(function(s){return "<li>"+s+"</li>"}).join("")+'</ul></span></div>'+
+      '<div class="ligne"><span>Ce qui manque</span><span>'+manqueHtml+'</span></div>'+
+      '<div class="ligne"><span>Prochaine étape</span><span>'+(ok?x.suite:(envoye[choisi]?"En attente de la réponse":"Réponse à valider par Nadia"))+'</span></div>';
+    r.querySelectorAll(".ligne").forEach(function(l,k){ if(reduit||!anime){l.classList.add("vu")} else setTimeout(function(){l.classList.add("vu")},150+k*300) });
+    ecrire($("brouillon"),(envoye[choisi]?"Réponse validée (rien ne part réellement) :":"Brouillon de réponse :")+"\n« Bonjour, merci de votre message. "+x.question+" Cordialement, le bureau. »",anime&&avec);
+    mode(["Ouvrir et lire le mail","Repérer ce qui est demandé","Repérer ce qui manque","Rédiger la réponse","","Noter le dossier au suivi"],"Relire et valider l'envoi (Nadia)",envoye[choisi],["fiche","brouillon","actions-a","boite-tete-fiche"]);
+    var v=$("valider"), rb=$("repondre"), e=$("etat");
+    v.disabled=envoye[choisi];
+    rb.hidden=!envoye[choisi]||ok; rb.textContent=x.repBouton;
+    e.textContent= ok ? "Complété. Dans la démo, rien ne part réellement." : envoye[choisi] ? "Validée. Dans la démo, rien ne part réellement." : "Préparé automatiquement, en attente de validation.";
+  }
+  function rendreOffres(){
+    var postes=[
+      ["Démolition de la cloison",3200,2900,3400],
+      ["Ouverture dans le mur porteur",9800,8700,9200],
+      ["Évacuation des gravats",1400,offreB===2?1500:null,1900],
+      ["Reprise de maçonnerie",2600,2400,2800]
+    ];
+    var tot=[0,0,0];
+    $("offres").innerHTML=postes.map(function(p){
+      var tds="";
+      for(var i=1;i<4;i++){
+        if(p[i]===null){tds+='<td class="d"><span class="pill att">absent</span></td>'}
+        else{tot[i-1]+=p[i]; tds+='<td class="d">'+chf(p[i])+(offreB===2&&i===2&&p[0]==="Évacuation des gravats"?' <span class="pill ok">réponse</span>':'')+'</td>'}
+      }
+      return '<tr><td>'+p[0]+'</td>'+tds+'</tr>';
+    }).join("");
+    $("offres-pied").innerHTML='<tr><td>Total</td><td class="d">'+chf(tot[0])+'</td><td class="d">'+chf(tot[1])+(offreB===2?'':' <span class="pill att">incomplet</span>')+'</td><td class="d">'+chf(tot[2])+'</td></tr>';
+    var al=[];
+    if(offreB<2){al.push('<div class="ligne"><span>Entreprise B</span><span>L\'évacuation des gravats n\'apparaît pas dans son offre. Son total ne se compare pas encore aux deux autres.</span></div>')}
+    al.push('<div class="ligne"><span>Entreprise C</span><span>Son profilé de renfort pour l\'ouverture est décrit autrement que chez A. Mathieu ou l\'ingénieur doivent dire si c\'est équivalent : l\'outil ne le juge pas.</span></div>');
+    al.push('<div class="ligne"><span>Choix</span><span>Il reste à Mathieu.</span></div>');
+    var r=$("alertes"); r.innerHTML=al.join("");
+    r.querySelectorAll(".ligne").forEach(function(l){l.classList.add("vu")});
+    $("demander").disabled=offreB>=1; $("repB").hidden=offreB!==1;
+    $("etat-offres").textContent= offreB===2 ? "Réponse de B : les gravats sont en sus, 1'500. Le total de B est maintenant complet. Rien ne part réellement dans la démo." : offreB===1 ? "Question validée, non envoyée (démo) : « L'évacuation des gravats n'apparaît pas dans votre offre. Est-elle comprise, ou en sus ? Dans ce cas, pour quel montant ? »" : "Brouillon de question à B prêt, à faire relire par Nadia.";
+  }
+
+  function rendrePoint(){
+    var lignes=[];
+    var etape=["Premier projet","Offre d'honoraires","Mise à l'enquête"];
+    demandes.forEach(function(x,k){
+      var attend, faire;
+      if(k===2 && repondu[k]){attend="La commune (rien reçu à ce jour)"; faire='<span class="pill att">Nadia relance la commune</span>'}
+      else if(repondu[k]){attend="Rien : réponse reçue"; faire='<span class="pill ok">'+x.suite.replace("Prêt pour Mathieu : ","").replace("Prêt : ","")+'</span>'}
+      else if(envoye[k]){attend="Réponse attendue"; faire='<span class="pill att">Relance si pas de nouvelle</span>'}
+      else {attend="Validation de la réponse"; faire='<span class="pill att">Nadia relit</span>'}
+      lignes.push('<tr><td>'+x.client+'</td><td>'+etape[k]+'</td><td>'+attend+'</td><td>'+faire+'</td></tr>');
+    });
+    var b= offreB===0 ? ["Poste manquant, entreprise B",'<span class="pill att">Question à poser à B</span>'] : offreB===1 ? ["Réponse de B",'<span class="pill att">Relance de B si besoin</span>'] : ["Avis sur le profilé de C (Mathieu ou ingénieur)",'<span class="pill att">Choix à Mathieu ensuite</span>'];
+    lignes.push('<tr><td>Chantier Morel</td><td>Offres de maçonnerie</td><td>'+b[0]+'</td><td>'+b[1]+'</td></tr>');
+    $("point").innerHTML=lignes.join("");
+  }
+  $("valider").onclick=function(){envoye[choisi]=true; rendre(false); rendrePoint(); lier(); annonce("Réponse validée. Étape 2 faite."); if(!$("repondre").hidden) $("repondre").focus()};
+  $("repondre").onclick=function(){repondu[choisi]=true; rendre(false); rendrePoint(); lier(); var f=$("fiche"); f.setAttribute("tabindex","-1"); f.focus(); annonce("Complément reçu, fiche mise à jour.")};
+  $("demander").onclick=function(){offreB=1; rendreOffres(); rendrePoint(); lier(); annonce("Question validée, non envoyée dans la démo."); $("repB").focus()};
+  $("repB").onclick=function(){offreB=2; rendreOffres(); rendrePoint(); lier(); annonce("Offre de B complète. Étape 3 faite."); $("alertes").focus()};
+  $("sans").onclick=function(){avec=false; rendre(false); annonce("Sans l'outil : 6 gestes, tous à la main.")};
+  $("avec").onclick=function(){avec=true; rendre(true); annonce("Avec l'outil : 5 gestes faits par l'outil, 1 pour vous.")};
+  $("recommencer").onclick=init;
+  init();
+})();
+</script>
+
+</body>
+</html>
