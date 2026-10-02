@@ -77,6 +77,20 @@ footer{padding-block:0 40px;font-size:13.5px;color:var(--doux)}
   .bulle{max-width:92%}
   .bilan{grid-template-columns:1fr}
 }
+.cmp-ligne{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid #e3ddd2}
+.cmp-bascule{display:inline-flex;border:2px solid #0F3B47;border-radius:10px;overflow:hidden}
+.cmp-bascule button{font:600 15px/1 -apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;padding:11px 16px;border:0;background:transparent;color:#0F3B47;cursor:pointer}
+.cmp-bascule button[aria-pressed="true"]{background:#0F3B47;color:#fff}
+.cmp-bascule button:focus-visible{outline:3px solid #C9772F;outline-offset:-3px}
+.cmp-txt{font-weight:700;color:#0F3B47}
+.cmp-note{font-size:14px;color:#56646a}
+.cmp-liste{list-style:none;margin:0;padding:12px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#fcfbf8}
+.cmp-liste li{display:flex;flex-direction:column;gap:6px;padding:9px 11px;border:1px solid #e3ddd2;border-radius:8px;background:#fff;font-size:14.5px;line-height:1.35}
+.g-pill{align-self:flex-start;display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px}
+.g-pill.main{background:#eceff0;color:#3d4a50}
+.g-pill.ok{background:#e6f2ea;color:#2f7a4f}
+.g-pill.att{background:#fbeedd;color:#9a5a12}
+@media (max-width:700px){.cmp-liste{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -106,6 +120,22 @@ footer{padding-block:0 40px;font-size:13.5px;color:var(--doux)}
     <div class="questions" id="messages"></div>
   </div>
 </section>
+
+<section id="comparer">
+  <p class="moment">Was Sie eben gesehen haben, nebeneinander</p>
+  <h2>Dieselbe Arbeit, ohne das Werkzeug und mit dem Werkzeug</h2>
+  <p class="sous">Zwei Arten, die Nachrichten der Mieter am Wochenende zu bearbeiten, ohne das Werkzeug und mit dem Werkzeug. Die Arbeitsschritte sind dieselben (lesen, sortieren, antworten, alarmieren, zusammenfassen): Der Unterschied ist, wer sie macht.</p>
+  <div class="boite">
+    <div class="cmp-ligne">
+      <div class="cmp-bascule" role="group" aria-label="Die Arbeit ohne oder mit dem Werkzeug ansehen"><button id="cmp-sans" type="button" aria-pressed="true">Ohne das Werkzeug</button><button id="cmp-avec" type="button" aria-pressed="false">Mit dem Werkzeug</button></div>
+      <span class="cmp-txt" id="cmp-txt"></span>
+      <span class="cmp-note" id="cmp-note"></span>
+    </div>
+    <ul class="cmp-liste" id="cmp-liste"></ul>
+  </div>
+  <div class="sr-only" id="cmp-annonce" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap"></div>
+</section>
+
 
 <section>
   <p class="moment">Montag, 7.30 Uhr</p>
@@ -149,7 +179,7 @@ footer{padding-block:0 40px;font-size:13.5px;color:var(--doux)}
 
 <div class="fin">
   <h2>Und bei Ihnen?</h2>
-  <p>Dieses Beispiel ist fiktiv. Bei Ihnen würde der Assistent von Ihren Reglementen, Ihren Notfallweisungen und Ihrer Art zu antworten ausgehen. Er gehört Ihnen, mit allen Daten. Wir halten uns an das Schweizer Datenschutzgesetz (DSG) und zusätzlich an die DSGVO, wenn Sie mit der Europäischen Union arbeiten.</p>
+  <p>Dieses Beispiel ist fiktiv. Bei Ihnen würde der Assistent von Ihren Reglementen, Ihren Notfallweisungen und Ihrer Art zu antworten ausgehen. Ich stütze mich auf das Schweizer Datenschutzgesetz (DSG); je nach Fall kann auch die DSGVO gelten, das klären wir gemeinsam. Wo die Daten bearbeitet und aufbewahrt werden und bei wem sie bleiben, legen wir mit Ihnen fest, bevor wir starten.</p>
   <p>Schreiben Sie mir oder rufen Sie mich an, ich zeige es Ihnen an den Fragen, die Sie wirklich erhalten:<br>
   <span class="coord">jocelyn@collega.ch</span> · <span class="coord">+41 77 269 06 20</span></p>
 </div>
@@ -174,7 +204,7 @@ footer{padding-block:0 40px;font-size:13.5px;color:var(--doux)}
      demande:"Kein Warmwasser mehr", fait:"Pikett-Heizungsmonteur am Samstag um 22.41 Uhr benachrichtigt", attend:true},
     {qui:"Frau Gerber", ou:"Obstgartenweg 4, 1. Stock", quand:"Sonntag, 6.50 Uhr",
      q:"Von der Decke in meinem Badezimmer tropft Wasser, das kommt aus der Wohnung über mir!",
-     r:"Automatische Antwort der Verwaltung. Das ist ein Notfall: Ich benachrichtige sofort den Pikettdienst der Verwaltung, mit Ihrer Adresse und Ihrer Nachricht. Bleiben Sie unter dieser Nummer erreichbar.",
+     r:"Automatische Antwort der Verwaltung. Ihre Nachricht sieht nach einem Notfall aus: Ich leite sie an den Pikettdienst der Verwaltung weiter, mit Ihrer Adresse. Besteht eine unmittelbare Gefahr, rufen Sie zusätzlich die Notfallnummer der Verwaltung an. Bleiben Sie unter dieser Nummer erreichbar.",
      src:"Quelle: Notfallweisungen der Verwaltung, Wasserschaden", ok:true,
      demande:"Wasser tropft von der Decke", fait:"Pikettdienst der Verwaltung am Sonntag um 6.51 Uhr benachrichtigt", attend:true},
     {qui:"Herr Aebi", ou:"Obstgartenweg 6, 3. Stock", quand:"Sonntag, 15.20 Uhr",
@@ -222,6 +252,24 @@ footer{padding-block:0 40px;font-size:13.5px;color:var(--doux)}
   }
   $("recommencer").onclick=init;
   init();
+})();
+</script>
+
+<script>
+(function(){
+  var G=["Jede Nachricht lesen und einordnen", "Das Dringende vom Alltäglichen trennen", "Im Notfall den Pikettdienst alarmieren", "Mit dem Reglement antworten, mit Quellenangabe", "Das Wochenende für die Bewirtschafterin zusammenfassen", "Entscheiden, was nirgends geschrieben steht (die Bewirtschafterin)"], V=5, avec=false, $=function(i){return document.getElementById(i)};
+  function r(){
+    $("cmp-sans").setAttribute("aria-pressed",String(!avec)); $("cmp-avec").setAttribute("aria-pressed",String(avec));
+    $("cmp-liste").innerHTML=G.map(function(g,i){
+      var p= !avec ? '<span class="g-pill main">Von Hand</span>' : i===V ? '<span class="g-pill att">Ihre Aufgabe</span>' : '<span class="g-pill ok">Vom Werkzeug erledigt</span>';
+      return '<li>'+g+p+'</li>';
+    }).join("");
+    $("cmp-txt").textContent= avec ? "5 Arbeitsschritte erledigt das Werkzeug, 1 bleibt bei Ihnen" : "6 Arbeitsschritte, alle von Hand";
+    $("cmp-note").textContent= avec ? "Vom Werkzeug erledigt heisst nicht ohne Kontrolle: Die Freigabe ist Ihre Arbeit." : "Klicken Sie auf «Mit dem Werkzeug»: Das Beispiel unten zeigt diese Arbeit mit dem Werkzeug.";
+  }
+  $("cmp-sans").onclick=function(){avec=false; r(); $("cmp-annonce").textContent="Ohne das Werkzeug: 6 Arbeitsschritte, alle von Hand."};
+  $("cmp-avec").onclick=function(){avec=true; r(); $("cmp-annonce").textContent="Mit dem Werkzeug: 5 Arbeitsschritte erledigt das Werkzeug, 1 bleibt bei Ihnen."};
+  r();
 })();
 </script>
 
