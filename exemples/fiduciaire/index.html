@@ -86,6 +86,20 @@ footer{padding-block:0 40px;font-size:13.5px;color:var(--doux)}
   .ligne{grid-template-columns:1fr;gap:0}
 }
 @media (prefers-reduced-motion:reduce){.ligne{transition:none}}
+.cmp-ligne{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid #e3ddd2}
+.cmp-bascule{display:inline-flex;border:2px solid #0F3B47;border-radius:10px;overflow:hidden}
+.cmp-bascule button{font:600 15px/1 -apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;padding:11px 16px;border:0;background:transparent;color:#0F3B47;cursor:pointer}
+.cmp-bascule button[aria-pressed="true"]{background:#0F3B47;color:#fff}
+.cmp-bascule button:focus-visible{outline:3px solid #C9772F;outline-offset:-3px}
+.cmp-txt{font-weight:700;color:#0F3B47}
+.cmp-note{font-size:14px;color:#56646a}
+.cmp-liste{list-style:none;margin:0;padding:12px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#fcfbf8}
+.cmp-liste li{display:flex;flex-direction:column;gap:6px;padding:9px 11px;border:1px solid #e3ddd2;border-radius:8px;background:#fff;font-size:14.5px;line-height:1.35}
+.g-pill{align-self:flex-start;display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px}
+.g-pill.main{background:#eceff0;color:#3d4a50}
+.g-pill.ok{background:#e6f2ea;color:#2f7a4f}
+.g-pill.att{background:#fbeedd;color:#9a5a12}
+@media (max-width:700px){.cmp-liste{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -103,6 +117,21 @@ footer{padding-block:0 40px;font-size:13.5px;color:var(--doux)}
 </div></div>
 
 <main class="w">
+
+<section id="comparer">
+  <p class="moment">Avant de commencer</p>
+  <h2>Le même travail, sans l'outil et avec l'outil</h2>
+  <p class="sous">Deux façons de suivre les pièces d'un client, côte à côte. Les gestes sont les mêmes : la différence est qui les fait.</p>
+  <div class="boite">
+    <div class="cmp-ligne">
+      <div class="cmp-bascule" role="group" aria-label="Voir le travail sans ou avec l'outil"><button id="cmp-sans" type="button" aria-pressed="true">Sans l'outil</button><button id="cmp-avec" type="button" aria-pressed="false">Avec l'outil</button></div>
+      <span class="cmp-txt" id="cmp-txt"></span>
+      <span class="cmp-note" id="cmp-note"></span>
+    </div>
+    <ul class="cmp-liste" id="cmp-liste"></ul>
+  </div>
+  <div class="sr-only" id="cmp-annonce" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap"></div>
+</section>
 
 <section>
   <p class="moment"><b>Lundi, 7 h</b></p>
@@ -170,7 +199,7 @@ footer{padding-block:0 40px;font-size:13.5px;color:var(--doux)}
 
 <div class="fin">
   <h2>Et chez vous ?</h2>
-  <p>Cet exemple est fictif. Chez vous, l'outil partirait de vos clients, de vos échéances et de votre façon de travailler. Il vous appartient avec ses données. Nous appliquons la loi suisse sur la protection des données (LPD), et le RGPD en plus si vous travaillez avec l'Union européenne.</p>
+  <p>Cet exemple est fictif. Chez vous, l'outil partirait de vos clients, de vos échéances et de votre façon de travailler. Je m'appuie sur la loi suisse sur la protection des données (LPD) ; selon le cas, le RGPD peut aussi s'appliquer, cela se vérifie avec vous. Où les données sont traitées et conservées, et à qui elles restent, se décide avec vous avant tout démarrage.</p>
   <p>Écrivez-moi ou appelez-moi, je vous le montre sur un de vos cas réels :<br>
   <span class="coord">jocelyn@collega.ch</span> · <span class="coord">+41 77 269 06 20</span></p>
 </div>
@@ -198,6 +227,7 @@ footer{padding-block:0 40px;font-size:13.5px;color:var(--doux)}
   var $=function(id){return document.getElementById(id)};
 
   function init(){
+    (window.__tm||[]).forEach(clearTimeout); window.__tm=[];
     recu=clients.map(function(c){return c.manque.map(function(){return false})});
     choisi=0; envoyes={}; pas=0;
     $("zone-arrivee").innerHTML='<p class="vide">Aucune pièce reçue pour l\'instant.</p>';
@@ -238,6 +268,7 @@ footer{padding-block:0 40px;font-size:13.5px;color:var(--doux)}
   $("valider").onclick=function(){envoyes[choisi]=true;rendre()};
   $("arrive").onclick=function(){
     if(pas>=arrivees.length) return;
+    (window.__tm||[]).forEach(clearTimeout); window.__tm=[];
     var a=arrivees[pas]; pas++;
     var z=$("zone-arrivee");
     z.innerHTML='<div class="arrivee"><div class="photo" aria-hidden="true"><b>'+a.photo[0]+'</b>'+a.photo.slice(1).join("<br>")+'</div>'+
@@ -249,11 +280,29 @@ footer{padding-block:0 40px;font-size:13.5px;color:var(--doux)}
       '<div class="ligne"><span>Rangé dans</span><span class="rangee">'+a.chemin+'</span></div>'+
       '</div></div>';
     var lignes=z.querySelectorAll(".ligne"), reduit=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
-    lignes.forEach(function(l,k){ if(reduit){l.classList.add("vu")} else setTimeout(function(){l.classList.add("vu")},250+k*380) });
-    setTimeout(function(){recu[a.c][a.i]=true; choisi=a.c; rendre()}, reduit?0:250+lignes.length*380);
+    lignes.forEach(function(l,k){ if(reduit){l.classList.add("vu")} else window.__tm.push(setTimeout(function(){l.classList.add("vu")},250+k*380)) });
+    window.__tm.push(setTimeout(function(){recu[a.c][a.i]=true; choisi=a.c; rendre()}, reduit?0:250+lignes.length*380));
   };
   $("recommencer").onclick=init;
   init();
+})();
+</script>
+
+<script>
+(function(){
+  var G=["Dresser la liste des pièces manquantes", "Écrire chaque relance", "Relire et valider les relances (vous)", "Lire chaque pièce reçue", "Nommer et ranger la pièce", "Cocher la ligne dans la liste"], V=2, avec=false, $=function(i){return document.getElementById(i)};
+  function r(){
+    $("cmp-sans").setAttribute("aria-pressed",String(!avec)); $("cmp-avec").setAttribute("aria-pressed",String(avec));
+    $("cmp-liste").innerHTML=G.map(function(g,i){
+      var p= !avec ? '<span class="g-pill main">À la main</span>' : i===V ? '<span class="g-pill att">À vous</span>' : '<span class="g-pill ok">Fait par l\'outil</span>';
+      return '<li>'+g+p+'</li>';
+    }).join("");
+    $("cmp-txt").textContent= avec ? "5 gestes faits par l'outil, 1 pour vous" : "6 gestes, tous à la main";
+    $("cmp-note").textContent= avec ? "Fait par l'outil ne veut pas dire sans contrôle : la validation est votre travail." : "Cliquez sur « Avec l'outil » : l'exemple ci-dessous montre ce travail avec l'outil.";
+  }
+  $("cmp-sans").onclick=function(){avec=false; r(); $("cmp-annonce").textContent="Sans l'outil : 6 gestes, tous à la main."};
+  $("cmp-avec").onclick=function(){avec=true; r(); $("cmp-annonce").textContent="Avec l'outil : 5 gestes faits par l'outil, 1 pour vous."};
+  r();
 })();
 </script>
 
