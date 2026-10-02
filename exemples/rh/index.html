@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg">
+<title>Une saison de conditionnement</title>
+<style>
+.note-sans{background:#FBF3EA;border-left:3px solid var(--cuivre);padding:8px 12px;margin:8px 0;font-size:.95rem}
+.sans-outil table{opacity:.5}
+.sans-outil button{opacity:.6}
+/* Mise en page : une colonne étroite qui suit un dossier en quatre étapes reliées (messages, réponses, décisions, point), avec une bande de progression. Couleurs et polices reprises du site collega.ch. */
+:root{
+  --fond:#ffffff; --creme:#F7F4EE; --encre:#16252a; --doux:#56646a;
+  --petrole:#0F3B47; --cuivre:#C9772F; --cuivre-texte:#9A5418; --trait:#e3ddd2;
+  --ok:#2f7a4f; --ok-fond:#e6f2ea; --attente:#9a5a12; --attente-fond:#fbeedd;
+  --titre:Georgia,"Times New Roman",serif;
+  --texte:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fond);color:var(--encre);font:17px/1.6 var(--texte)}
+.w{max-width:860px;margin:0 auto;padding-inline:20px}
+header{border-bottom:1px solid var(--trait);padding-block:16px}
+header .w{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.marque{display:block;line-height:0}
+.marque img{height:36px;width:auto;display:block}
+.fictif{font-size:13px;color:var(--doux);background:var(--creme);border:1px solid var(--trait);padding:4px 10px;border-radius:20px}
+.intro{background:var(--creme);padding-block:44px 40px}
+.tag{color:var(--cuivre-texte);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:13px;margin:0 0 10px}
+h1{font:700 clamp(28px,4.4vw,42px)/1.15 var(--titre);color:var(--petrole);margin:0 0 14px;text-wrap:balance;max-width:20em}
+.intro p{margin:0;color:var(--doux);max-width:36em;font-size:18px}
+section{padding-block:40px;border-bottom:1px solid var(--trait)}
+.moment{margin:0 0 6px;font:700 14px/1 var(--texte);color:var(--cuivre-texte);letter-spacing:.06em;text-transform:uppercase}
+h2{font:700 25px/1.25 var(--titre);color:var(--petrole);margin:0 0 8px;text-wrap:balance}
+.sous{color:var(--doux);margin:0 0 20px;max-width:38em}
+.boite{border:1px solid var(--trait);border-radius:12px;overflow:hidden;background:var(--fond)}
+.boite-tete{background:var(--creme);padding:10px 16px;font-size:14px;color:var(--doux);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--trait)}
+.duo{display:grid;grid-template-columns:1fr 1.3fr;gap:0}
+.duo>div{min-width:0;padding:16px}
+.duo>div+div{border-left:1px solid var(--trait);background:#fcfbf8}
+.col-titre{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--doux);font-weight:600;margin:0 0 10px}
+.choix{display:block;width:100%;text-align:left;background:var(--fond);border:1px solid var(--trait);border-radius:10px;padding:12px 14px;margin:0 0 10px;font:600 16px/1.4 var(--texte);color:var(--encre);cursor:pointer}
+.choix:hover{border-color:var(--cuivre)}
+.choix:focus-visible{outline:3px solid var(--cuivre);outline-offset:2px}
+.choix small{display:block;font:400 13.5px/1.4 var(--texte);color:var(--doux);margin-top:2px}
+.choix[aria-pressed="true"]{border-color:var(--petrole);box-shadow:inset 4px 0 0 var(--petrole)}
+.dit{margin:0;font:italic 17px/1.55 var(--titre);color:var(--encre)}
+.lecture{display:grid;gap:10px;padding:18px 20px}
+.ligne{display:grid;grid-template-columns:150px 1fr;gap:10px;font-size:15.5px;opacity:.7;transition:opacity .35s}
+.ligne.vu{opacity:1}
+.ligne>span:first-child{color:var(--doux);font-size:14px}
+.ligne ul{margin:0;padding-left:18px}
+.brouillon{margin:0;padding:16px 20px;border-top:1px solid var(--trait);background:#fcfbf8;font:italic 16.5px/1.6 var(--titre);white-space:pre-line}
+.pill{display:inline-block;font-size:13px;font-weight:600;padding:3px 10px;border-radius:20px;font-variant-numeric:tabular-nums}
+.pill.att{background:var(--attente-fond);color:var(--attente)}
+.pill.ok{background:var(--ok-fond);color:var(--ok)}
+.defile{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15.5px;min-width:520px;font-variant-numeric:tabular-nums}
+th{text-align:left;font-weight:600;color:var(--doux);font-size:13px;letter-spacing:.05em;text-transform:uppercase;padding:10px 16px;border-bottom:1px solid var(--trait)}
+td{padding:10px 16px;border-bottom:1px solid var(--trait);vertical-align:top}
+th.d,td.d{text-align:right;white-space:nowrap}
+tfoot td{border-bottom:0;padding-block:6px;color:var(--doux)}
+tfoot tr:last-child td{color:var(--encre);font-weight:700;font-size:17px;padding-bottom:14px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;padding:14px 20px;border-top:1px solid var(--trait);background:var(--creme);align-items:center}
+.actions button{font:600 15.5px/1 var(--texte);padding:12px 18px;border-radius:9px;border:2px solid var(--petrole);cursor:pointer;background:var(--petrole);color:#fff}
+.actions button.sec{background:transparent;color:var(--petrole)}
+.actions button:disabled{opacity:.45;cursor:default}
+.actions button:focus-visible{outline:3px solid var(--cuivre);outline-offset:2px}
+.actions[hidden]{display:none}
+.note{font-size:14px;color:var(--doux)}
+.bilan{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.bilan div{padding-top:12px;border-top:3px solid var(--trait)}
+.bilan div.apres{border-top-color:var(--petrole)}
+.bilan h3{margin:0 0 6px;font:700 19px/1.3 var(--titre);color:var(--petrole)}
+.bilan ul{margin:0;padding-left:18px;color:var(--doux)}
+.fin{background:var(--petrole);color:#fff;border-radius:16px;padding:30px 28px;margin-block:40px}
+.fin h2{color:#fff}
+.fin p{margin:0 0 14px;opacity:.92;max-width:36em}
+.fin .coord{font-weight:600;user-select:all}
+footer{padding-block:0 40px;font-size:13.5px;color:var(--doux)}
+
+.fil{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--trait)}
+.fil ol{display:flex;gap:6px;list-style:none;margin:0 auto;padding:8px 20px;max-width:860px;overflow-x:auto}
+.fil a{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:20px;font:600 14px/1.2 var(--texte);color:var(--doux);text-decoration:none;white-space:nowrap;border:1px solid transparent}
+.fil a:focus-visible{outline:3px solid var(--cuivre);outline-offset:2px}
+.fil .n{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;border:2px solid var(--trait);font-size:12px;color:var(--doux)}
+.fil li.fait a{color:var(--ok)}
+.fil li.fait .n{background:var(--ok);border-color:var(--ok);color:#fff}
+.fil li.ici a{color:var(--petrole);background:var(--creme);border-color:var(--trait)}
+.fil li.ici .n{border-color:var(--petrole)}
+.fil li.fait.ici a{color:var(--ok)}
+.fil li.suivant a{border:1px dashed var(--cuivre)}
+.fil li.suivant .n{border-color:var(--cuivre);color:var(--cuivre-texte)}
+.reprise{margin:0 0 16px;padding:10px 14px;border-left:4px solid var(--cuivre);background:var(--creme);border-radius:0 8px 8px 0;font-size:15px;color:var(--encre)}
+.reprise b{color:var(--cuivre-texte);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:2px}
+.suite{display:inline-block;margin-top:14px;font-weight:600;color:var(--petrole)}
+.suite:focus-visible{outline:3px solid var(--cuivre);outline-offset:2px}
+.ligne>*{min-width:0}
+[hidden]{display:none!important}
+.bascule-ligne{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--trait)}
+.bascule{display:inline-flex;border:2px solid var(--petrole);border-radius:10px;overflow:hidden}
+.bascule button{font:600 15px/1 var(--texte);padding:11px 16px;border:0;background:transparent;color:var(--petrole);cursor:pointer}
+.bascule button[aria-pressed="true"]{background:var(--petrole);color:#fff}
+.bascule button:focus-visible{outline:3px solid var(--cuivre);outline-offset:-3px}
+.gestes-txt{font-weight:700;color:var(--petrole)}
+.gestes{list-style:none;margin:0;padding:12px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-bottom:1px solid var(--trait);background:#fcfbf8}
+.gestes li{display:flex;flex-direction:column;gap:6px;padding:9px 11px;border:1px solid var(--trait);border-radius:8px;background:#fff;font-size:14.5px;line-height:1.35}
+.gestes .pill{align-self:flex-start;font-size:12px}
+.pill.main{background:#eceff0;color:#3d4a50}
+.vide{margin:0;padding:22px 20px;color:var(--doux);font-style:italic}
+@media (max-width:700px){.gestes{grid-template-columns:1fr 1fr}}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+section{scroll-margin-top:56px}
+@media (max-width:700px){.fil li:not(.ici) .t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
+@media (max-width:700px){
+  .duo{grid-template-columns:1fr}
+  .duo>div+div{border-left:0;border-top:1px solid var(--trait)}
+  .bilan{grid-template-columns:1fr}
+  .ligne{grid-template-columns:1fr;gap:0}
+}
+@media (prefers-reduced-motion:reduce){.ligne{transition:none}}
+</style>
+</head>
+<body>
+
+<header><div class="w">
+  <a class="marque" href="https://collega.ch/"><img src="/collega-logo.svg" alt="Collega"></a>
+  <span class="fictif">Exemple fictif : noms, dates et montants inventés</span>
+</div></header>
+
+
+<div class="intro"><div class="w">
+  <p class="tag">Exemple · Saison de conditionnement</p>
+  <h1>Les saisonniers écrivent dans leur langue. Chaque demande suit son chemin jusqu'à la bonne personne.</h1>
+  <p>Dans un atelier de conditionnement de soixante personnes, dont une quarantaine de saisonniers, j'imagine que les mêmes demandes reviennent souvent d'une saison à l'autre : un relevé d'heures, une avance, un accident. Voici une journée dans une entreprise fictive, en quatre étapes reliées : la barre en haut montre où vous en êtes. Cliquez, rien à installer.</p>
+</div></div>
+
+<nav class="fil" aria-label="Étapes de la démonstration"><ol id="fil"></ol></nav>
+<div class="sr-only" id="annonce" aria-live="polite"></div>
+
+<main class="w">
+
+<section id="e1">
+  <p class="moment">Étape 1 · Mardi, 7 h 10</p>
+  <h2>Trois saisonniers écrivent avant de commencer</h2>
+  <p class="sous">Claire s'occupe des ressources humaines, M. Favre dirige l'atelier. Choisissez un des trois messages.</p>
+  <div class="boite">
+    <div class="duo">
+      <div>
+        <p class="col-titre">Messages reçus</p>
+        <div id="choix"></div>
+      </div>
+      <div>
+        <p class="col-titre">Le message, tel qu'il est écrit</p>
+        <p class="dit" id="dit"></p>
+      </div>
+    </div>
+  </div>
+  <a class="suite" href="#e2">Étape suivante : la réponse</a>
+</section>
+
+<section id="e2">
+  <p class="moment">Étape 2 · Quelques secondes plus tard</p>
+  <h2>Chacun reçoit une réponse dans sa langue</h2>
+  <p class="reprise" id="reprise2"></p>
+  <p class="sous">L'outil répond avec ce qu'il peut établir : un relevé, une procédure, une règle écrite. Aujourd'hui, c'est du travail à la main : lire, traduire, chercher, rédiger, transmettre, noter. Ici, l'outil prépare tout, et une personne décide ou valide. Il ne décide ni d'une avance ni d'un droit.</p>
+  <div class="boite">
+    <div class="bascule-ligne">
+      <div class="bascule" role="group" aria-label="Voir le travail sans ou avec l'outil"><button id="sans" type="button" aria-pressed="true">Sans l'outil</button><button id="avec" type="button" aria-pressed="false">Avec l'outil</button></div>
+      <span class="gestes-txt" id="gestes-txt"></span>
+      <span class="note" id="gestes-note"></span>
+    </div>
+    <div class="bascule-ligne"><span class="note">Message :</span><div class="bascule" role="group" aria-label="Choisir un message" id="cas"></div></div>
+    <ul class="gestes" id="gestes"></ul>
+    <p class="vide" id="vide">Rien n'est préparé : le message attend que quelqu'un l'ouvre, le lise, cherche, rédige, relise, envoie et note. Cliquez sur « Avec l'outil » pour voir la même demande traitée.</p>
+    <div class="boite-tete" id="boite-tete-fiche"><span>Réponse envoyée</span><span id="fiche-tete"></span></div>
+    <div class="lecture" id="fiche"></div>
+    <div class="actions" id="actions2" hidden>
+      <button id="chef" type="button">Le chef d'équipe confirme le mardi 17</button>
+      <span class="note">Le relevé final repart dans la langue d'Ana.</span>
+    </div>
+  </div>
+  <a class="suite" href="#e3">Étape suivante : ce qui attend une personne</a>
+</section>
+
+<section id="e3">
+  <p class="moment">Étape 3 · Dans la matinée</p>
+  <h2>Ce qui attend une décision ou une signature</h2>
+  <p class="reprise" id="reprise3"></p>
+  <p class="sous">La direction décide, Claire valide. L'outil ne décide pas d'une avance, et ne demande aucun détail médical. Un accident survenu sur place se règle sur le moment, avec le supérieur : l'exemple porte sur un accident privé.</p>
+  <div class="boite">
+    <div class="boite-tete"><span>Demandes qui attendent quelqu'un</span><span id="decisions-tete" tabindex="-1"></span></div>
+    <div class="defile" tabindex="0" role="region" aria-label="Demandes qui attendent quelqu'un"><table>
+      <thead><tr><th scope="col">Demande</th><th scope="col">Qui décide</th><th scope="col">État</th></tr></thead>
+      <tbody id="decisions"></tbody>
+    </table></div>
+    <div class="actions">
+      <button id="accord" type="button">La direction accorde les 500 francs</button>
+      <button id="declaration" type="button">Claire valide et transmet la déclaration</button>
+      <button id="recommencer" type="button" class="sec">Recommencer</button>
+      <span class="note" id="etat3"></span>
+    </div>
+  </div>
+  <a class="suite" href="#e4">Étape suivante : le point de la semaine</a>
+</section>
+
+<section id="e4">
+  <p class="moment">Étape 4 · Vendredi</p>
+  <h2>Le point de la semaine, prêt pour Claire</h2>
+  <p class="reprise" id="reprise4"></p>
+  <p class="sous">Chaque ligne reprend ce que vous avez fait plus haut.</p>
+  <div class="boite">
+    <div class="boite-tete"><span>Point de la semaine</span><span>3 demandes</span></div>
+    <div class="defile" tabindex="0" role="region" aria-label="Point de la semaine"><table>
+      <thead><tr><th scope="col">Personne</th><th scope="col">Demande</th><th scope="col">En attente de</th><th scope="col">À faire</th></tr></thead>
+      <tbody id="point"></tbody>
+    </table></div>
+    <div class="actions"><span class="note">L'outil signale, il ne décide pas.</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Ce qui change pour l'atelier, et ce qui reste à la direction</h2>
+  <div class="bilan">
+    <div>
+      <h3>Souvent, aujourd'hui</h3>
+      <ul>
+        <li>Le relevé d'heures est imprimé en fin de mois ?</li>
+        <li>Les demandes arrivent par papier, par message, ou par un collègue qui traduit ?</li>
+        <li>Après un accident privé, on cherche le bon formulaire et à qui envoyer le certificat ?</li>
+      </ul>
+    </div>
+    <div class="apres">
+      <h3>Avec l'outil</h3>
+      <ul>
+        <li>Chacun écrit dans sa langue et reçoit la réponse dans la sienne.</li>
+        <li>Le relevé d'heures arrive à la demande, avec les jours à confirmer signalés.</li>
+        <li>L'avance et l'accident privé arrivent chez la bonne personne, dossier prêt.</li>
+        <li>Les décisions sur l'argent, les droits et les assurances restent à la direction et à Claire.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="fin">
+  <h2>Et chez vous ?</h2>
+  <p>Cet exemple est fictif : règles, montants et délais sont inventés. Chez vous, l'outil partirait de vos règles, du contrat qui régit votre personnel et de la façon dont vous saisissez les heures (timbrage ou saisie par les chefs d'équipe). Les données de santé demandent des précautions particulières : elles se cadrent avec vous avant tout démarrage.</p>
+  <p>Je m'appuie sur la loi suisse sur la protection des données (LPD) ; selon le cas, le RGPD peut aussi s'appliquer, cela se vérifie avec vous. Où les messages sont traités et conservés se décide avec vous avant tout démarrage.</p>
+  <p>Écrivez-moi ou appelez-moi, je vous le montre sur vos propres règles :<br>
+  <span class="coord">jocelyn@collega.ch</span> · <span class="coord">+41 77 269 06 20</span></p>
+</div>
+
+</main>
+
+<footer><div class="w">Collega · Jocelyn Bussy · 1433 Suchy · Démonstration : aucune donnée réelle, aucun envoi réel.</div></footer>
+
+<script>
+(function(){
+  var qs=[
+    {nom:"Ana", lang:"Portugais", code:"pt", resume:"Relevé d'heures de septembre",
+     msg:"« Bom dia. Preciso do relatório das minhas horas de setembro. »"},
+    {nom:"Miguel", lang:"Espagnol", code:"es", resume:"Avance de salaire",
+     msg:"« Hola. ¿Puedo pedir un adelanto de 500 francos? Necesito pagar el alquiler. »"},
+    {nom:"Luca", lang:"Italien", code:"it", resume:"Accident privé, arrêt de travail",
+     msg:"« Buongiorno. Sabato sera, giocando a calcio, mi sono fatto male al ginocchio. Il medico mi ha dato un certificato fino a venerdì. Cosa devo fare? »"}
+  ];
+  var choisi, ouvert, chef, accord, decl, clique, premier=true;
+  var etapes=[["Messages","1"],["Réponses","2"],["Décisions","3"],["Point de la semaine","4"]];
+  var $=function(id){return document.getElementById(id)};
+  var reduit=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function span(code,t){return '<span lang="'+code+'">'+t+'</span>'}
+  var loc=0;
+  function spy(){var l=0; ["e1","e2","e3","e4"].forEach(function(id,i){var r=$(id).getBoundingClientRect(); if(r.top<=window.innerHeight*0.4) l=i}); if(l!==loc){loc=l; lier()}}
+  window.addEventListener("scroll",spy,{passive:true});
+  function versSuite(){ if(!reduit) $("e2").scrollIntoView({behavior:"smooth",block:"start"}); }
+  var avec=false, tmr;
+  function ecrire(el,txt,anime){clearInterval(tmr); if(!anime||reduit){el.textContent=txt;return} var i=0; el.textContent=""; tmr=setInterval(function(){i+=3; el.textContent=txt.slice(0,i); if(i>=txt.length){clearInterval(tmr); el.textContent=txt}},18)}
+  function mode(G,vousLabel,vousFait,ids){
+    $("sans").setAttribute("aria-pressed",String(!avec)); $("avec").setAttribute("aria-pressed",String(avec));
+    $("gestes").innerHTML=G.map(function(g,i){
+      var vous=(i===4), pill= !avec ? '<span class="pill main">À la main</span>' : vous ? (vousFait?'<span class="pill ok">Fait par vous</span>':'<span class="pill att">À vous</span>') : '<span class="pill ok">Fait par l\'outil</span>';
+      return '<li>'+(vous?vousLabel:g)+pill+'</li>';
+    }).join("");
+    $("gestes-txt").textContent= avec ? "5 gestes faits par l'outil, 1 pour vous" : "6 gestes, tous à la main";
+    $("gestes-note").textContent= avec ? "Fait par l'outil ne veut pas dire sans contrôle : la validation est votre travail." : "";
+    ids.forEach(function(id){var e=$(id); if(e) e.hidden=!avec});
+    [["e3","Sans l'outil : ces décisions se retrouvent dans des courriels, des papiers et la mémoire de chacun. Le tableau ci-dessous n'existe pas, c'est ce que l'outil ajoute."],["e4","Sans l'outil : ce point se fait à la main, en relisant les messages un par un. Le tableau ci-dessous est ce que l'outil prépare."]].forEach(function(x){
+      var sec=$(x[0]), n=$("ns-"+x[0]);
+      if(!n){n=document.createElement("p"); n.id="ns-"+x[0]; n.className="note-sans"; var h=sec.querySelector("h2"); h.parentNode.insertBefore(n,h.nextSibling)}
+      n.textContent=x[1]; n.hidden=avec; sec.classList.toggle("sans-outil",!avec);
+    });
+    $("vide").hidden=avec;
+  }
+  function annonce(t){$("annonce").textContent=""; setTimeout(function(){$("annonce").textContent=t},50)}
+  function init(){
+    avec=false; choisi=0; clique=false; ouvert=[true,false,false]; chef=false; accord=false; decl=false;
+    rendre(true); rendreDecisions(); rendrePoint(); lier();
+    if(!premier){annonce("Démonstration remise à zéro."); var b=$("choix").querySelector(".choix"); if(b) b.focus()}
+    premier=false;
+  }
+  function progres(){
+    var p=0; if(clique||accord||decl||chef) p=1;
+    if(ouvert[0]&&ouvert[1]&&ouvert[2]) p=2;
+    if(accord&&decl) p=3; return p;
+  }
+  function lier(){
+    var fait=[clique||accord||decl||chef, ouvert[0]&&ouvert[1]&&ouvert[2], accord&&decl, false], cur=fait.indexOf(false);
+    $("fil").innerHTML=etapes.map(function(e,i){
+      var cls=(fait[i]?"fait ":"")+(i===loc?"ici ":"")+(i===cur?"suivant":"");
+      return '<li class="'+cls+'"><a href="#e'+(i+1)+'"'+(i===loc?' aria-current="step"':'')+'><span class="n" aria-hidden="true">'+(fait[i]?"✓":e[1])+'</span><span class="t">'+e[0]+(fait[i]?' (fait)':'')+'</span></a></li>';
+    }).join("");
+    var x=qs[choisi];
+    $("reprise2").innerHTML='<b>Venu de l\'étape 1</b>Le message de '+x.nom+', en '+x.lang.toLowerCase()+', lu juste au-dessus.';
+    var n=ouvert.filter(Boolean).length;
+    var sA=chef?'final':'provisoire, un jour à confirmer', sM=!ouvert[1]?'message pas encore ouvert':accord?'accordée':'à décider', sL=!ouvert[2]?'message pas encore ouvert':decl?'déclaration transmise (simulé)':'déclaration à valider';
+    $("reprise3").innerHTML='<b>Venu de l\'étape 2</b>'+n+' message'+(n>1?'s':'')+' ouvert'+(n>1?'s':'')+' sur 3. Relevé d\'Ana : '+sA+'. Avance de Miguel : '+sM+'. Accident privé de Luca : '+sL+'.';
+    $("reprise4").innerHTML='<b>Venu des étapes 2 et 3</b>Relevé d\'Ana : '+sA+'. Avance de Miguel : '+sM+'. Accident privé de Luca : '+sL+'.';
+  }
+  function rendre(anime){
+    var z=$("choix"); z.innerHTML="";
+    qs.forEach(function(x,k){
+      var b=document.createElement("button"); b.type="button"; b.className="choix";
+      b.setAttribute("aria-pressed", k===choisi?"true":"false");
+      b.innerHTML=x.nom+" · "+x.lang+"<small>"+x.resume+"</small>";
+      b.onclick=function(){var p1=!clique; choisi=k; ouvert[k]=true; clique=true; if(p1) versSuite(); rendre(true); rendreDecisions(); rendrePoint(); lier(); annonce('Message de '+qs[k].nom+' affiché, la réponse est dessous.'); var bs=$("choix").querySelectorAll(".choix"); if(bs[k]) bs[k].focus()};
+      z.appendChild(b);
+    });
+    var x=qs[choisi];
+    $("cas").innerHTML=qs.map(function(q,k){return '<button type="button" data-k="'+k+'" aria-pressed="'+(k===choisi)+'">'+q.nom+'</button>'}).join("");
+    $("cas").querySelectorAll("button").forEach(function(bt){bt.onclick=function(){var k=+bt.getAttribute("data-k"); var p1=!clique; choisi=k; ouvert[k]=true; clique=true; rendre(true); rendreDecisions(); rendrePoint(); lier(); annonce("Message de "+qs[k].nom+" affiché."); var nb=$("cas").querySelector('[data-k="'+k+'"]'); if(nb) nb.focus()}});
+    $("dit").innerHTML=span(x.code,x.msg);
+    $("fiche-tete").textContent=x.nom+" · "+x.lang;
+    var rep, fr, st, extra="";
+    if(choisi===0){
+      rep= chef
+        ? "« Ana, aqui está o relatório final de setembro: 171 h. Segue em PDF. »"
+        : "« Bom dia, Ana. Aqui estão as suas horas de setembro: 163 h. Falta confirmar um dia (terça 17, sem saída registada). O seu chefe de equipa vai confirmar. »";
+      fr= chef
+        ? "Relevé final envoyé à Ana : 171 h, en PDF."
+        : "Relevé provisoire envoyé : 163 h. Un jour est signalé : mardi 17, aucune sortie enregistrée. Il est laissé de côté jusqu'à la confirmation du chef d'équipe : 171 h si une journée de 8 h est confirmée.";
+      st= chef ? '<span class="pill ok">Relevé final, rien à décider</span>' : '<span class="pill att">Relevé provisoire : un jour à confirmer</span>';
+      var sem=[["Semaine 1",42],["Semaine 2",45],["Semaine 3",chef?44:36],["Semaine 4",40]], tot=0;
+      extra='<div class="defile" tabindex="0" role="region" aria-label="Relevé d\'heures de septembre"><table><thead><tr><th scope="col">Semaine</th><th scope="col" class="d">Heures</th><th scope="col">Remarque</th></tr></thead><tbody>'+
+        sem.map(function(s,i){tot+=s[1]; return '<tr><td>'+s[0]+'</td><td class="d">'+s[1]+'</td><td>'+(i===2?(chef?'<span class="pill ok">mardi 17 confirmé</span>':'<span class="pill att">mardi 17 : sortie non enregistrée</span>'):'')+'</td></tr>'}).join("")+
+        '</tbody><tfoot><tr><td>Total</td><td class="d">'+tot+'</td><td></td></tr></tfoot></table></div>'+
+        '<p class="note">Selon que vos chefs d\'équipe saisissent les heures ou que vous utilisez un système de timbrage.</p>';
+    } else if(choisi===1){
+      rep= accord
+        ? "« Hola, Miguel. La dirección ha aceptado el adelanto de 500 francos. Te confirmaremos cómo se descontará. »"
+        : "« Hola, Miguel. He pasado tu solicitud a la dirección. Según el reglamento de la empresa, un adelanto es posible tras 10 días trabajados, hasta el 30 % de lo ya ganado. La dirección te responderá. »";
+      fr= accord
+        ? "La direction a accordé 500 francs. Réponse envoyée à Miguel en espagnol. La retenue et ses modalités restent à fixer avec Miguel et la comptabilité."
+        : "Miguel demande 500 francs d'avance (motif donné : le loyer). Règle fictive : possible après 10 jours travaillés, jusqu'à 30 % du gain brut déjà acquis. Miguel : 12 jours, 2 400 francs bruts, plafond 720 francs. La demande reste sous ce plafond. La direction décide.";
+      st= accord ? '<span class="pill ok">Accordée par la direction</span>' : '<span class="pill att">Transmise à la direction</span>';
+    } else {
+      rep= "« Buongiorno Luca, mi dispiace. Avvisa oggi il tuo capo squadra per telefono e manda il certificato a Claire. Claire prepara la dichiarazione all'assicurazione. Qui non servono i dettagli medici. »";
+      fr= decl
+        ? "Déclaration d'accident privé validée par Claire et transmise à l'assurance accidents (simulé). Aucun détail médical n'a été demandé à Luca."
+        : "Luca signale un accident privé (sport, samedi soir) et un arrêt de travail jusqu'à vendredi, d'après son message. Réponse donnée : prévenir le chef d'équipe par téléphone, envoyer le certificat à Claire. Déclaration préparée avec les faits connus (nom, poste, date, circonstances en une ligne). La nature de la blessure n'est pas reprise et aucun détail médical n'est demandé. Claire valide et transmet à l'assurance.";
+      st= decl ? '<span class="pill ok">Déclaration transmise (simulé)</span>' : '<span class="pill att">Déclaration prête, à valider par Claire</span>';
+    }
+    var r=$("fiche");
+    r.innerHTML=
+      '<div class="ligne"><span>Réponse envoyée</span><span>'+span(x.code,rep)+'</span></div>'+
+      '<div class="ligne"><span>Pour Claire et la direction, en français</span><span>'+fr+'</span></div>'+
+      '<div class="ligne"><span>Statut</span><span>'+st+'</span></div>'+
+      (extra?'<div class="ligne"><span>Pièce jointe</span><div>'+extra+'</div></div>':'');
+    r.querySelectorAll(".ligne").forEach(function(l,k){ if(reduit||!anime){l.classList.add("vu")} else setTimeout(function(){l.classList.add("vu")},150+k*300) });
+    $("actions2").hidden=!(choisi===0&&!chef)||!avec;
+    var VL=["Confirmer le jour manquant (chef d'équipe)","Décider (direction)","Valider la déclaration (Claire)"], VF=[chef,accord,decl];
+    mode(["Lire le message, dans sa langue","Retrouver l'information (relevé, règle, procédure)","Rédiger la réponse dans sa langue","Transmettre à la bonne personne","","Noter au suivi"],VL[choisi],VF[choisi],["fiche","boite-tete-fiche"]);
+  }
+  function rendreDecisions(){
+    var rows=[
+      ["Relevé d'heures d'Ana","Le chef d'équipe", ouvert[0] ? (chef?'<span class="pill ok">Final, rien à décider</span>':'<span class="pill att">Provisoire : le chef d\'équipe confirme un jour</span>') : '<span class="pill att">Message pas encore ouvert</span>'],
+      ["Avance de Miguel, 500 francs","La direction", !ouvert[1] ? '<span class="pill att">Message pas encore ouvert</span>' : accord ? '<span class="pill ok">Accordée</span>' : '<span class="pill att">À décider</span>'],
+      ["Accident privé de Luca","Claire", !ouvert[2] ? '<span class="pill att">Message pas encore ouvert</span>' : decl ? '<span class="pill ok">Déclaration transmise (simulé)</span>' : '<span class="pill att">Déclaration à valider</span>']
+    ];
+    $("decisions").innerHTML=rows.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>'}).join("");
+    $("decisions-tete").textContent=((chef?0:1)+(accord?0:1)+(decl?0:1))+" en attente";
+    $("accord").disabled=!ouvert[1]||accord; $("declaration").disabled=!ouvert[2]||decl;
+    $("etat3").textContent= (!ouvert[1]||!ouvert[2]) ? "Ouvrez d'abord les messages de Miguel et de Luca (étape 1 ou 2). Rien ne part réellement dans la démo." : "Rien ne part réellement dans la démo.";
+  }
+  function rendrePoint(){
+    var no=function(k){return ouvert[k]?null:["Message pas encore ouvert",'<span class="pill att">Ouvrir le message</span>']};
+    var l=[
+      ["Ana","Relevé d'heures", chef?"Rien":"Le chef d'équipe : mardi 17", chef?'<span class="pill ok">Terminé</span>':'<span class="pill att">Confirmer le jour</span>'],
+      ["Miguel","Avance de 500 francs"].concat(no(1)||(accord?["La comptabilité",'<span class="pill ok">Fixer la retenue avec Miguel</span>']:["La direction",'<span class="pill att">Décision</span>'])),
+      ["Luca","Accident privé, arrêt jusqu'à vendredi"].concat(no(2)||(decl?["L'assurance",'<span class="pill ok">Suivre la réponse de l\'assurance</span>']:["Claire",'<span class="pill att">Valider la déclaration</span>']))
+    ];
+    $("point").innerHTML=l.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td></tr>'}).join("");
+  }
+  function tout(foc){rendre(false); rendreDecisions(); rendrePoint(); lier(); if(foc){var f=$(foc); if(f){f.setAttribute("tabindex","-1"); f.focus()}}}
+  $("chef").onclick=function(){chef=true; tout("fiche"); annonce("Mardi 17 confirmé. Relevé final envoyé à Ana dans sa langue.")};
+  $("accord").onclick=function(){accord=true; ouvert[1]=true; tout("decisions-tete"); annonce("Avance accordée par la direction. Réponse envoyée à Miguel dans sa langue.")};
+  $("declaration").onclick=function(){decl=true; tout("decisions-tete"); annonce("Déclaration validée et transmise, simulé.")};
+  $("sans").onclick=function(){avec=false; rendre(false); annonce("Sans l'outil : 6 gestes, tous à la main.")};
+  $("avec").onclick=function(){avec=true; rendre(true); annonce("Avec l'outil : 5 gestes faits par l'outil, 1 pour vous.")};
+  $("recommencer").onclick=init;
+  init();
+})();
+</script>
+
+</body>
+</html>
