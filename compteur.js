@@ -2,7 +2,7 @@
 // GC_CODE vide = aucune mesure, aucun appel. Meme methode que lebattoir.ch.
 // Les liens marques par canal s'ecrivent ?ref=mail, ?ref=linkedin, ?ref=qr
 (function(){
-  var GC_CODE='';
+  var GC_CODE='coll1';
   if(!GC_CODE || !/(^|\.)collega\.ch$/.test(location.hostname)) return;
   var g=document.createElement('script'); g.async=true; g.src='https://gc.zgo.at/count.js';
   g.setAttribute('data-goatcounter','https://'+GC_CODE+'.goatcounter.com/count'); document.head.appendChild(g);
